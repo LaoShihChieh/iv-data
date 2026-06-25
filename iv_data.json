@@ -1,0 +1,790 @@
+{
+  "meta": {
+    "description": "Daily ATM implied volatility and IV-rank for a basket of liquid US optionable names.",
+    "iv_method": "BS-implied: Black-Scholes inversion of the ATM put's daily close (r=0, European, no dividends). A CONSISTENT PROXY, not vendor 'true' IV.",
+    "selection": "Implied vol of the put nearest spot at the ~35-DTE monthly expiry (third Friday, snapped to the prior session on holidays).",
+    "iv_rank": "Where current IV sits within its trailing 252-session min/max range (0-1); null when coverage n < 2.",
+    "n": "Number of recorded sessions in the trailing window (coverage).",
+    "fields": [
+      "ticker",
+      "date",
+      "iv",
+      "iv_rank",
+      "n"
+    ],
+    "disclaimer": "Educational/informational only. NOT investment advice. May contain gaps or errors."
+  },
+  "as_of": "2026-06-23",
+  "data": [
+    {
+      "ticker": "AA",
+      "date": "2026-06-22",
+      "iv": 0.6327,
+      "iv_rank": 0.6439,
+      "n": 252
+    },
+    {
+      "ticker": "AAL",
+      "date": "2026-06-22",
+      "iv": 0.5094,
+      "iv_rank": 0.4969,
+      "n": 252
+    },
+    {
+      "ticker": "AAPL",
+      "date": "2026-06-22",
+      "iv": 0.2173,
+      "iv_rank": 0.352,
+      "n": 252
+    },
+    {
+      "ticker": "ABBV",
+      "date": "2026-06-22",
+      "iv": 0.2899,
+      "iv_rank": 0.59,
+      "n": 252
+    },
+    {
+      "ticker": "AMD",
+      "date": "2026-06-22",
+      "iv": 0.7277,
+      "iv_rank": 0.8109,
+      "n": 252
+    },
+    {
+      "ticker": "AMZN",
+      "date": "2026-06-22",
+      "iv": 0.3092,
+      "iv_rank": 0.3673,
+      "n": 252
+    },
+    {
+      "ticker": "ARKK",
+      "date": "2026-06-22",
+      "iv": 0.3608,
+      "iv_rank": 0.1802,
+      "n": 252
+    },
+    {
+      "ticker": "BA",
+      "date": "2026-06-22",
+      "iv": 0.297,
+      "iv_rank": 0.3185,
+      "n": 252
+    },
+    {
+      "ticker": "BAC",
+      "date": "2026-06-22",
+      "iv": 0.2667,
+      "iv_rank": 0.4097,
+      "n": 252
+    },
+    {
+      "ticker": "BMY",
+      "date": "2026-06-22",
+      "iv": 0.3338,
+      "iv_rank": 0.6346,
+      "n": 252
+    },
+    {
+      "ticker": "C",
+      "date": "2026-06-22",
+      "iv": 0.3201,
+      "iv_rank": 0.3747,
+      "n": 252
+    },
+    {
+      "ticker": "CAT",
+      "date": "2026-06-22",
+      "iv": 0.3901,
+      "iv_rank": 0.6669,
+      "n": 252
+    },
+    {
+      "ticker": "CCL",
+      "date": "2026-06-22",
+      "iv": 0.5305,
+      "iv_rank": 0.5897,
+      "n": 252
+    },
+    {
+      "ticker": "CLF",
+      "date": "2026-06-22",
+      "iv": 0.625,
+      "iv_rank": 0.298,
+      "n": 252
+    },
+    {
+      "ticker": "CMCSA",
+      "date": "2026-06-22",
+      "iv": 0.3659,
+      "iv_rank": 0.7637,
+      "n": 252
+    },
+    {
+      "ticker": "COIN",
+      "date": "2026-06-22",
+      "iv": 0.6733,
+      "iv_rank": 0.5341,
+      "n": 252
+    },
+    {
+      "ticker": "COST",
+      "date": "2026-06-22",
+      "iv": 0.2058,
+      "iv_rank": 0.3759,
+      "n": 252
+    },
+    {
+      "ticker": "CSCO",
+      "date": "2026-06-22",
+      "iv": 0.3745,
+      "iv_rank": 0.7403,
+      "n": 252
+    },
+    {
+      "ticker": "CVS",
+      "date": "2026-06-22",
+      "iv": 0.2873,
+      "iv_rank": 0.3314,
+      "n": 252
+    },
+    {
+      "ticker": "DAL",
+      "date": "2026-06-22",
+      "iv": 0.4717,
+      "iv_rank": 0.4728,
+      "n": 252
+    },
+    {
+      "ticker": "DELL",
+      "date": "2026-06-22",
+      "iv": 0.7781,
+      "iv_rank": 0.8918,
+      "n": 252
+    },
+    {
+      "ticker": "DIA",
+      "date": "2026-06-22",
+      "iv": 0.128,
+      "iv_rank": 0.2317,
+      "n": 252
+    },
+    {
+      "ticker": "DIS",
+      "date": "2026-06-22",
+      "iv": 0.2725,
+      "iv_rank": 0.419,
+      "n": 252
+    },
+    {
+      "ticker": "DVN",
+      "date": "2026-06-22",
+      "iv": 0.3573,
+      "iv_rank": 0.255,
+      "n": 252
+    },
+    {
+      "ticker": "EEM",
+      "date": "2026-06-22",
+      "iv": 0.3299,
+      "iv_rank": 0.5813,
+      "n": 252
+    },
+    {
+      "ticker": "EFA",
+      "date": "2026-06-22",
+      "iv": 0.1408,
+      "iv_rank": 0.2713,
+      "n": 252
+    },
+    {
+      "ticker": "F",
+      "date": "2026-06-22",
+      "iv": 0.4015,
+      "iv_rank": 0.6932,
+      "n": 252
+    },
+    {
+      "ticker": "FCX",
+      "date": "2026-06-22",
+      "iv": 0.5243,
+      "iv_rank": 0.7128,
+      "n": 252
+    },
+    {
+      "ticker": "FXI",
+      "date": "2026-06-22",
+      "iv": 0.2143,
+      "iv_rank": 0.4103,
+      "n": 252
+    },
+    {
+      "ticker": "GDX",
+      "date": "2026-06-22",
+      "iv": 0.4493,
+      "iv_rank": 0.483,
+      "n": 252
+    },
+    {
+      "ticker": "GDXJ",
+      "date": "2026-06-22",
+      "iv": 0.5039,
+      "iv_rank": 0.471,
+      "n": 252
+    },
+    {
+      "ticker": "GE",
+      "date": "2026-06-22",
+      "iv": 0.3784,
+      "iv_rank": 0.6448,
+      "n": 252
+    },
+    {
+      "ticker": "GILD",
+      "date": "2026-06-22",
+      "iv": 0.2429,
+      "iv_rank": 0.1895,
+      "n": 252
+    },
+    {
+      "ticker": "GLD",
+      "date": "2026-06-22",
+      "iv": 0.2058,
+      "iv_rank": 0.2553,
+      "n": 252
+    },
+    {
+      "ticker": "GM",
+      "date": "2026-06-22",
+      "iv": 0.3685,
+      "iv_rank": 0.6202,
+      "n": 252
+    },
+    {
+      "ticker": "GOOGL",
+      "date": "2026-06-22",
+      "iv": 0.3081,
+      "iv_rank": 0.3542,
+      "n": 252
+    },
+    {
+      "ticker": "GS",
+      "date": "2026-06-22",
+      "iv": 0.3655,
+      "iv_rank": 0.6983,
+      "n": 252
+    },
+    {
+      "ticker": "HAL",
+      "date": "2026-06-22",
+      "iv": 0.363,
+      "iv_rank": 0.4924,
+      "n": 252
+    },
+    {
+      "ticker": "HPQ",
+      "date": "2026-06-22",
+      "iv": 0.4331,
+      "iv_rank": 0.4113,
+      "n": 252
+    },
+    {
+      "ticker": "HYG",
+      "date": "2026-06-22",
+      "iv": 0.0517,
+      "iv_rank": 0.0995,
+      "n": 252
+    },
+    {
+      "ticker": "IBM",
+      "date": "2026-06-22",
+      "iv": 0.4399,
+      "iv_rank": 0.6473,
+      "n": 252
+    },
+    {
+      "ticker": "INTC",
+      "date": "2026-06-22",
+      "iv": 0.893,
+      "iv_rank": 0.9391,
+      "n": 252
+    },
+    {
+      "ticker": "IWM",
+      "date": "2026-06-22",
+      "iv": 0.2014,
+      "iv_rank": 0.2739,
+      "n": 252
+    },
+    {
+      "ticker": "JNJ",
+      "date": "2026-06-22",
+      "iv": 0.2511,
+      "iv_rank": 0.7734,
+      "n": 252
+    },
+    {
+      "ticker": "JPM",
+      "date": "2026-06-22",
+      "iv": 0.2784,
+      "iv_rank": 0.5014,
+      "n": 252
+    },
+    {
+      "ticker": "KEY",
+      "date": "2026-06-22",
+      "iv": 0.2516,
+      "iv_rank": 0.2561,
+      "n": 252
+    },
+    {
+      "ticker": "KMI",
+      "date": "2026-06-22",
+      "iv": 0.2399,
+      "iv_rank": 0.4833,
+      "n": 252
+    },
+    {
+      "ticker": "KO",
+      "date": "2026-06-22",
+      "iv": 0.1486,
+      "iv_rank": 0.2933,
+      "n": 252
+    },
+    {
+      "ticker": "KR",
+      "date": "2026-06-22",
+      "iv": 0.2826,
+      "iv_rank": 0.4996,
+      "n": 252
+    },
+    {
+      "ticker": "KRE",
+      "date": "2026-06-22",
+      "iv": 0.2137,
+      "iv_rank": 0.1795,
+      "n": 252
+    },
+    {
+      "ticker": "LYFT",
+      "date": "2026-06-22",
+      "iv": 0.4869,
+      "iv_rank": 0.2186,
+      "n": 252
+    },
+    {
+      "ticker": "MARA",
+      "date": "2026-06-22",
+      "iv": 0.8253,
+      "iv_rank": 0.391,
+      "n": 252
+    },
+    {
+      "ticker": "META",
+      "date": "2026-06-22",
+      "iv": 0.329,
+      "iv_rank": 0.4405,
+      "n": 252
+    },
+    {
+      "ticker": "MO",
+      "date": "2026-06-22",
+      "iv": 0.2076,
+      "iv_rank": 0.3842,
+      "n": 252
+    },
+    {
+      "ticker": "MRK",
+      "date": "2026-06-22",
+      "iv": 0.271,
+      "iv_rank": 0.3785,
+      "n": 252
+    },
+    {
+      "ticker": "MS",
+      "date": "2026-06-22",
+      "iv": 0.3384,
+      "iv_rank": 0.5434,
+      "n": 252
+    },
+    {
+      "ticker": "MSFT",
+      "date": "2026-06-22",
+      "iv": 0.2949,
+      "iv_rank": 0.54,
+      "n": 252
+    },
+    {
+      "ticker": "MU",
+      "date": "2026-06-22",
+      "iv": 1.1678,
+      "iv_rank": 1.0,
+      "n": 252
+    },
+    {
+      "ticker": "NCLH",
+      "date": "2026-06-22",
+      "iv": 0.5255,
+      "iv_rank": 0.4507,
+      "n": 252
+    },
+    {
+      "ticker": "NEM",
+      "date": "2026-06-22",
+      "iv": 0.4455,
+      "iv_rank": 0.4493,
+      "n": 252
+    },
+    {
+      "ticker": "NIO",
+      "date": "2026-06-22",
+      "iv": 0.4975,
+      "iv_rank": 0.0953,
+      "n": 252
+    },
+    {
+      "ticker": "NVDA",
+      "date": "2026-06-22",
+      "iv": 0.3352,
+      "iv_rank": 0.1959,
+      "n": 252
+    },
+    {
+      "ticker": "OKE",
+      "date": "2026-06-22",
+      "iv": 0.2941,
+      "iv_rank": 0.3289,
+      "n": 252
+    },
+    {
+      "ticker": "ORCL",
+      "date": "2026-06-22",
+      "iv": 0.5361,
+      "iv_rank": 0.4619,
+      "n": 252
+    },
+    {
+      "ticker": "OXY",
+      "date": "2026-06-22",
+      "iv": 0.3307,
+      "iv_rank": 0.2097,
+      "n": 252
+    },
+    {
+      "ticker": "PARA",
+      "date": "2025-08-06",
+      "iv": 0.5863,
+      "iv_rank": 0.3434,
+      "n": 252
+    },
+    {
+      "ticker": "PEP",
+      "date": "2026-06-22",
+      "iv": 0.2753,
+      "iv_rank": 0.7998,
+      "n": 252
+    },
+    {
+      "ticker": "PFE",
+      "date": "2026-06-22",
+      "iv": 0.1891,
+      "iv_rank": 0.098,
+      "n": 252
+    },
+    {
+      "ticker": "PG",
+      "date": "2026-06-22",
+      "iv": 0.2043,
+      "iv_rank": 0.3969,
+      "n": 252
+    },
+    {
+      "ticker": "PINS",
+      "date": "2026-06-22",
+      "iv": 0.5155,
+      "iv_rank": 0.3952,
+      "n": 252
+    },
+    {
+      "ticker": "PLTR",
+      "date": "2026-06-22",
+      "iv": 0.4872,
+      "iv_rank": 0.3149,
+      "n": 252
+    },
+    {
+      "ticker": "PLUG",
+      "date": "2026-06-22",
+      "iv": 0.8578,
+      "iv_rank": 0.1208,
+      "n": 252
+    },
+    {
+      "ticker": "PNC",
+      "date": "2026-06-22",
+      "iv": 0.2945,
+      "iv_rank": 0.4089,
+      "n": 252
+    },
+    {
+      "ticker": "QCOM",
+      "date": "2026-06-22",
+      "iv": 0.8572,
+      "iv_rank": 0.8578,
+      "n": 252
+    },
+    {
+      "ticker": "QQQ",
+      "date": "2026-06-22",
+      "iv": 0.2301,
+      "iv_rank": 0.6092,
+      "n": 252
+    },
+    {
+      "ticker": "RIOT",
+      "date": "2026-06-22",
+      "iv": 0.7992,
+      "iv_rank": 0.3826,
+      "n": 252
+    },
+    {
+      "ticker": "RIVN",
+      "date": "2026-06-22",
+      "iv": 0.6146,
+      "iv_rank": 0.4495,
+      "n": 252
+    },
+    {
+      "ticker": "SCHW",
+      "date": "2026-06-22",
+      "iv": 0.2641,
+      "iv_rank": 0.4374,
+      "n": 252
+    },
+    {
+      "ticker": "SLB",
+      "date": "2026-06-22",
+      "iv": 0.3635,
+      "iv_rank": 0.422,
+      "n": 252
+    },
+    {
+      "ticker": "SLV",
+      "date": "2026-06-22",
+      "iv": 0.3938,
+      "iv_rank": 0.198,
+      "n": 252
+    },
+    {
+      "ticker": "SMH",
+      "date": "2026-06-22",
+      "iv": 0.5464,
+      "iv_rank": 0.9996,
+      "n": 252
+    },
+    {
+      "ticker": "SNAP",
+      "date": "2026-06-22",
+      "iv": 0.5839,
+      "iv_rank": 0.3045,
+      "n": 252
+    },
+    {
+      "ticker": "SOFI",
+      "date": "2026-06-22",
+      "iv": 0.5618,
+      "iv_rank": 0.2682,
+      "n": 252
+    },
+    {
+      "ticker": "SPY",
+      "date": "2026-06-22",
+      "iv": 0.1275,
+      "iv_rank": 0.1916,
+      "n": 252
+    },
+    {
+      "ticker": "T",
+      "date": "2026-06-22",
+      "iv": 0.2886,
+      "iv_rank": 0.7139,
+      "n": 252
+    },
+    {
+      "ticker": "TGT",
+      "date": "2026-06-22",
+      "iv": 0.2763,
+      "iv_rank": 0.0376,
+      "n": 252
+    },
+    {
+      "ticker": "TLT",
+      "date": "2026-06-22",
+      "iv": 0.096,
+      "iv_rank": 0.1791,
+      "n": 252
+    },
+    {
+      "ticker": "TSLA",
+      "date": "2026-06-22",
+      "iv": 0.4146,
+      "iv_rank": 0.1696,
+      "n": 252
+    },
+    {
+      "ticker": "UAL",
+      "date": "2026-06-22",
+      "iv": 0.5321,
+      "iv_rank": 0.3772,
+      "n": 252
+    },
+    {
+      "ticker": "UBER",
+      "date": "2026-06-22",
+      "iv": 0.3247,
+      "iv_rank": 0.2411,
+      "n": 252
+    },
+    {
+      "ticker": "USB",
+      "date": "2026-06-22",
+      "iv": 0.3334,
+      "iv_rank": 0.4567,
+      "n": 252
+    },
+    {
+      "ticker": "USO",
+      "date": "2026-06-22",
+      "iv": 0.4624,
+      "iv_rank": 0.2289,
+      "n": 252
+    },
+    {
+      "ticker": "VALE",
+      "date": "2026-06-23",
+      "iv": 0.3327,
+      "iv_rank": 0.4458,
+      "n": 252
+    },
+    {
+      "ticker": "VZ",
+      "date": "2026-06-22",
+      "iv": 0.273,
+      "iv_rank": 0.7071,
+      "n": 252
+    },
+    {
+      "ticker": "WBD",
+      "date": "2026-06-22",
+      "iv": 0.4049,
+      "iv_rank": 0.4747,
+      "n": 252
+    },
+    {
+      "ticker": "WFC",
+      "date": "2026-06-22",
+      "iv": 0.2936,
+      "iv_rank": 0.3687,
+      "n": 252
+    },
+    {
+      "ticker": "WMB",
+      "date": "2026-06-22",
+      "iv": 0.2523,
+      "iv_rank": 0.4426,
+      "n": 252
+    },
+    {
+      "ticker": "WMT",
+      "date": "2026-06-22",
+      "iv": 0.2436,
+      "iv_rank": 0.4096,
+      "n": 252
+    },
+    {
+      "ticker": "X",
+      "date": "2025-06-17",
+      "iv": 0.024,
+      "iv_rank": 0.0,
+      "n": 252
+    },
+    {
+      "ticker": "XLB",
+      "date": "2026-06-22",
+      "iv": 0.2169,
+      "iv_rank": 0.34,
+      "n": 252
+    },
+    {
+      "ticker": "XLC",
+      "date": "2026-06-22",
+      "iv": 0.1951,
+      "iv_rank": 0.1803,
+      "n": 252
+    },
+    {
+      "ticker": "XLE",
+      "date": "2026-06-22",
+      "iv": 0.2251,
+      "iv_rank": 0.3727,
+      "n": 252
+    },
+    {
+      "ticker": "XLF",
+      "date": "2026-06-22",
+      "iv": 0.1602,
+      "iv_rank": 0.4246,
+      "n": 252
+    },
+    {
+      "ticker": "XLI",
+      "date": "2026-06-22",
+      "iv": 0.1917,
+      "iv_rank": 0.4682,
+      "n": 252
+    },
+    {
+      "ticker": "XLK",
+      "date": "2026-06-22",
+      "iv": 0.3389,
+      "iv_rank": 0.6203,
+      "n": 252
+    },
+    {
+      "ticker": "XLP",
+      "date": "2026-06-22",
+      "iv": 0.1183,
+      "iv_rank": 0.2654,
+      "n": 252
+    },
+    {
+      "ticker": "XLRE",
+      "date": "2026-06-22",
+      "iv": 0.1219,
+      "iv_rank": 0.1505,
+      "n": 252
+    },
+    {
+      "ticker": "XLU",
+      "date": "2026-06-22",
+      "iv": 0.1252,
+      "iv_rank": 0.3495,
+      "n": 252
+    },
+    {
+      "ticker": "XLV",
+      "date": "2026-06-22",
+      "iv": 0.1299,
+      "iv_rank": 0.4754,
+      "n": 252
+    },
+    {
+      "ticker": "XLY",
+      "date": "2026-06-22",
+      "iv": 0.2043,
+      "iv_rank": 0.4356,
+      "n": 252
+    }
+  ]
+}

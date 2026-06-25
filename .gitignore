@@ -1,0 +1,14 @@
+# This repo should ever contain ONLY iv_data.json, METHODOLOGY.md, README.md.
+# These patterns are a safety net in case anything sensitive ever appears here.
+.env
+.env.*
+*.bak
+*.vendor.bak
+*_state.json
+run_status.json
+iv_history.json
+logs/
+*.log
+.DS_Store
+__pycache__/
+*.pyc
