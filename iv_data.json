@@ -1,790 +1,7082 @@
 {
   "meta": {
-    "description": "Daily ATM implied volatility and IV-rank for a basket of liquid US optionable names.",
-    "iv_method": "BS-implied: Black-Scholes inversion of the ATM put's daily close (r=0, European, no dividends). A CONSISTENT PROXY, not vendor 'true' IV.",
-    "selection": "Implied vol of the put nearest spot at the ~35-DTE monthly expiry (third Friday, snapped to the prior session on holidays).",
-    "iv_rank": "Where current IV sits within its trailing 252-session min/max range (0-1); null when coverage n < 2.",
-    "n": "Number of recorded sessions in the trailing window (coverage).",
+    "description": "Daily strategy-relevant fact set per liquid US optionable name (the scanner's data layer).",
+    "provenance": "Facts 1-7 and 9 (typical IV, realized vol, IV-RV gap, IV rank, drawdown, largest down day, spread, option volume) are computed from ALPACA data (BS-implied IV; split-only-adjusted equity history; option quotes/bars). Market cap (fact 8) is from FINNHUB (/stock/profile2 company market cap); ETFs show N/A because funds have no company market cap (a category distinction, not missing data).",
+    "typical_iv": "Median of the BS-implied ATM-put IV over the trailing 252 sessions (r=0/European/no-div BS inversion; a consistent proxy, not vendor 'true' IV). Coverage in iv_coverage_n.",
+    "iv_rank": "Where current IV sits within its trailing-252 min/max range (0-1); null when coverage < 2.",
+    "realized_vol": "Annualized stdev of 21-trading-day-horizon daily log returns (split-adjusted), median over trailing 252 \u2014 matched to the IV horizon.",
+    "iv_minus_rv": "typical_iv minus realized_vol (variance-risk-premium proxy).",
+    "drawdown": "Max peak-to-trough on split-adjusted closes over 1/3/5yr, with recovery_days (back to prior peak) or underwater_pct (still below). All windows pre-computed.",
+    "largest_down_day": "Worst single-day close-to-close DOWN move (split-adjusted), 1/3/5yr.",
+    "spread_pct": "Current ATM-put bid/ask spread from the INDICATIVE feed \u2014 modeled and time-sensitive; NOT a reliable point-in-time liquidity read. Lead with option_volume; treat a wide spread as indicative only.",
+    "option_volume": "Trailing ~10-session average daily volume of the shared ~35-DTE ATM-put contract (the genuine liquidity-depth signal). option_volume_days = sessions the average covers; a low count (e.g. 1) is a single noisy day.",
+    "market_cap": "Finnhub company market cap (USD) + band (Mega>=$200B / Large / Mid / Small / Micro). ETFs: N/A (funds have no company market cap).",
     "fields": [
       "ticker",
-      "date",
-      "iv",
+      "typical_iv",
       "iv_rank",
-      "n"
+      "iv_coverage_n",
+      "realized_vol",
+      "iv_minus_rv",
+      "drawdown",
+      "largest_down_day",
+      "spread_pct",
+      "option_volume",
+      "option_volume_days",
+      "market_cap"
     ],
     "disclaimer": "Educational/informational only. NOT investment advice. May contain gaps or errors."
   },
-  "as_of": "2026-06-23",
+  "as_of": "2026-06-27",
   "data": [
     {
       "ticker": "AA",
-      "date": "2026-06-22",
-      "iv": 0.6327,
-      "iv_rank": 0.6439,
-      "n": 252
+      "typical_iv": 0.5329,
+      "iv_rank": 0.7048,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.5028,
+      "iv_minus_rv": 0.0301,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.3758,
+          "recovery_days": null,
+          "underwater_pct": -0.3665,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.524,
+          "recovery_days": 254,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.7626,
+          "recovery_days": null,
+          "underwater_pct": -0.4416,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0947,
+          "date": "2026-06-10",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1138,
+          "date": "2025-04-03",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1694,
+          "date": "2022-04-21",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.0524,
+      "option_volume": 221.1,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 14276442030,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "AAL",
-      "date": "2026-06-22",
-      "iv": 0.5094,
-      "iv_rank": 0.4969,
-      "n": 252
+      "typical_iv": 0.4779,
+      "iv_rank": 0.5466,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.4894,
+      "iv_minus_rv": -0.0115,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.3739,
+          "recovery_days": 86,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.5176,
+          "recovery_days": null,
+          "underwater_pct": -0.0654,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.5925,
+          "recovery_days": null,
+          "underwater_pct": -0.2107,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0962,
+          "date": "2025-07-24",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1448,
+          "date": "2025-04-10",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1448,
+          "date": "2025-04-10",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.547,
+      "option_volume": 114.5,
+      "option_volume_days": 8,
+      "market_cap": {
+        "usd": 11818952101,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "AAPL",
-      "date": "2026-06-22",
-      "iv": 0.2173,
-      "iv_rank": 0.352,
-      "n": 252
+      "typical_iv": 0.2353,
+      "iv_rank": 0.5543,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.2221,
+      "iv_minus_rv": 0.0132,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1382,
+          "recovery_days": 37,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.3343,
+          "recovery_days": 195,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.3343,
+          "recovery_days": 195,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0612,
+          "date": "2026-06-25",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0925,
+          "date": "2025-04-03",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0925,
+          "date": "2025-04-03",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.3304,
+      "option_volume": 2645.7,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 4167977919594,
+        "band": "Mega",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "ABBV",
-      "date": "2026-06-22",
-      "iv": 0.2899,
-      "iv_rank": 0.59,
-      "n": 252
+      "typical_iv": 0.2627,
+      "iv_rank": 0.5944,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.2427,
+      "iv_minus_rv": 0.02,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1923,
+          "recovery_days": null,
+          "underwater_pct": -0.0051,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.2146,
+          "recovery_days": 143,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.2426,
+          "recovery_days": 224,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.052,
+          "date": "2026-03-18",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1257,
+          "date": "2024-11-11",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1257,
+          "date": "2024-11-11",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.2703,
+      "option_volume": 1.2,
+      "option_volume_days": 4,
+      "market_cap": {
+        "usd": 447616966582,
+        "band": "Mega",
+        "source": "finnhub"
+      }
+    },
+    {
+      "ticker": "AMC",
+      "typical_iv": 0.7898,
+      "iv_rank": 0.708,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.542,
+      "iv_minus_rv": 0.2478,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.7321,
+          "recovery_days": null,
+          "underwater_pct": -0.3898,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.9708,
+          "recovery_days": null,
+          "underwater_pct": -0.9335,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.9952,
+          "recovery_days": null,
+          "underwater_pct": -0.9891,
+          "coverage_days": 1255
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.2464,
+          "date": "2026-06-23",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.368,
+          "date": "2023-09-06",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.368,
+          "date": "2023-09-06",
+          "coverage_days": 1255
+        }
+      },
+      "spread_pct": 0.1053,
+      "option_volume": 3674.2,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 1928025952,
+        "band": "Small",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "AMD",
-      "date": "2026-06-22",
-      "iv": 0.7277,
-      "iv_rank": 0.8109,
-      "n": 252
+      "typical_iv": 0.5323,
+      "iv_rank": 0.7531,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.5179,
+      "iv_minus_rv": 0.0144,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.2776,
+          "recovery_days": 44,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.63,
+          "recovery_days": 182,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.6545,
+          "recovery_days": 461,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.1731,
+          "date": "2026-02-04",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1731,
+          "date": "2026-02-04",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1731,
+          "date": "2026-02-04",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.0512,
+      "option_volume": 350.6,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 850488665310,
+        "band": "Mega",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "AMZN",
-      "date": "2026-06-22",
-      "iv": 0.3092,
-      "iv_rank": 0.3673,
-      "n": 252
+      "typical_iv": 0.3088,
+      "iv_rank": 0.4486,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.267,
+      "iv_minus_rv": 0.0418,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.2174,
+          "recovery_days": 68,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.3088,
+          "recovery_days": 193,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.5615,
+          "recovery_days": 470,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0827,
+          "date": "2025-08-01",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0898,
+          "date": "2025-04-03",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1405,
+          "date": "2022-04-29",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.2122,
+      "option_volume": 1871.7,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 2503071719899,
+        "band": "Mega",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "ARKK",
-      "date": "2026-06-22",
-      "iv": 0.3608,
-      "iv_rank": 0.1802,
-      "n": 252
+      "typical_iv": 0.4105,
+      "iv_rank": 0.3776,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.3479,
+      "iv_minus_rv": 0.0626,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.3135,
+          "recovery_days": null,
+          "underwater_pct": -0.1728,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.3956,
+          "recovery_days": 73,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.7735,
+          "recovery_days": null,
+          "underwater_pct": -0.4152,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0697,
+          "date": "2026-06-05",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0875,
+          "date": "2025-03-10",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.101,
+          "date": "2022-05-11",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.4395,
+      "option_volume": 39.3,
+      "option_volume_days": 3,
+      "market_cap": {
+        "usd": null,
+        "band": "ETF",
+        "source": "etf"
+      }
+    },
+    {
+      "ticker": "AVGO",
+      "typical_iv": 0.4561,
+      "iv_rank": 0.4095,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.4074,
+      "iv_minus_rv": 0.0487,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.2895,
+          "recovery_days": 23,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.4148,
+          "recovery_days": 60,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.4148,
+          "recovery_days": 60,
+          "underwater_pct": null,
+          "coverage_days": 1255
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.1259,
+          "date": "2026-06-04",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.174,
+          "date": "2025-01-27",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.174,
+          "date": "2025-01-27",
+          "coverage_days": 1255
+        }
+      },
+      "spread_pct": 0.0667,
+      "option_volume": 189.8,
+      "option_volume_days": 5,
+      "market_cap": {
+        "usd": 1736611896901,
+        "band": "Mega",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "BA",
-      "date": "2026-06-22",
-      "iv": 0.297,
-      "iv_rank": 0.3185,
-      "n": 252
+      "typical_iv": 0.308,
+      "iv_rank": 0.4679,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.2959,
+      "iv_minus_rv": 0.0121,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.2496,
+          "recovery_days": null,
+          "underwater_pct": -0.135,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.4831,
+          "recovery_days": null,
+          "underwater_pct": -0.1746,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.5172,
+          "recovery_days": 543,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0632,
+          "date": "2025-10-30",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1047,
+          "date": "2025-04-03",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1047,
+          "date": "2025-04-03",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.3733,
+      "option_volume": 261.7,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 171258672390,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "BAC",
-      "date": "2026-06-22",
-      "iv": 0.2667,
-      "iv_rank": 0.4097,
-      "n": 252
+      "typical_iv": 0.2512,
+      "iv_rank": 0.438,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.1995,
+      "iv_minus_rv": 0.0517,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1839,
+          "recovery_days": 101,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.2801,
+          "recovery_days": 88,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.4903,
+          "recovery_days": 665,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0472,
+          "date": "2026-02-27",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1106,
+          "date": "2025-04-03",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1106,
+          "date": "2025-04-03",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.0469,
+      "option_volume": 759.0,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 410750638724,
+        "band": "Mega",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "BMY",
-      "date": "2026-06-22",
-      "iv": 0.3338,
-      "iv_rank": 0.6346,
-      "n": 252
+      "typical_iv": 0.2967,
+      "iv_rank": 0.3691,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.2665,
+      "iv_minus_rv": 0.0302,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1342,
+          "recovery_days": null,
+          "underwater_pct": -0.1119,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.3879,
+          "recovery_days": null,
+          "underwater_pct": -0.1451,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.5112,
+          "recovery_days": null,
+          "underwater_pct": -0.3173,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0581,
+          "date": "2025-07-31",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0851,
+          "date": "2024-04-25",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0851,
+          "date": "2024-04-25",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.0657,
+      "option_volume": 38.3,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 117459939253,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "C",
-      "date": "2026-06-22",
-      "iv": 0.3201,
-      "iv_rank": 0.3747,
-      "n": 252
+      "typical_iv": 0.3023,
+      "iv_rank": 0.3456,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.2403,
+      "iv_minus_rv": 0.062,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1476,
+          "recovery_days": 28,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.3131,
+          "recovery_days": 87,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.4853,
+          "recovery_days": 446,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0532,
+          "date": "2026-02-12",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1214,
+          "date": "2025-04-03",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1214,
+          "date": "2025-04-03",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.1109,
+      "option_volume": 882.4,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 243105275883,
+        "band": "Mega",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "CAT",
-      "date": "2026-06-22",
-      "iv": 0.3901,
-      "iv_rank": 0.6669,
-      "n": 252
+      "typical_iv": 0.3421,
+      "iv_rank": 0.8553,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.3225,
+      "iv_minus_rv": 0.0196,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1388,
+          "recovery_days": 10,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.3429,
+          "recovery_days": 100,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.3429,
+          "recovery_days": 100,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.064,
+          "date": "2026-06-10",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0864,
+          "date": "2025-04-03",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0864,
+          "date": "2025-04-03",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.1619,
+      "option_volume": 59.7,
+      "option_volume_days": 9,
+      "market_cap": {
+        "usd": 459471616500,
+        "band": "Mega",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "CCL",
-      "date": "2026-06-22",
-      "iv": 0.5305,
-      "iv_rank": 0.5897,
-      "n": 252
+      "typical_iv": 0.4489,
+      "iv_rank": 0.3995,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.4497,
+      "iv_minus_rv": -0.0008,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.2971,
+          "recovery_days": null,
+          "underwater_pct": -0.1627,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.4285,
+          "recovery_days": 355,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.7582,
+          "recovery_days": 786,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0906,
+          "date": "2025-11-04",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1369,
+          "date": "2025-04-03",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.2325,
+          "date": "2022-09-30",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.1603,
+      "option_volume": 233.0,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 40211888832,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "CLF",
-      "date": "2026-06-22",
-      "iv": 0.625,
-      "iv_rank": 0.298,
-      "n": 252
+      "typical_iv": 0.6401,
+      "iv_rank": 0.4608,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.5963,
+      "iv_minus_rv": 0.0438,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.5167,
+          "recovery_days": null,
+          "underwater_pct": -0.335,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.7446,
+          "recovery_days": null,
+          "underwater_pct": -0.5287,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.8237,
+          "recovery_days": null,
+          "underwater_pct": -0.6746,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.1724,
+          "date": "2025-10-21",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1724,
+          "date": "2025-10-21",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1724,
+          "date": "2025-10-21",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.058,
+      "option_volume": 179.8,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 5675626115,
+        "band": "Mid",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "CMCSA",
-      "date": "2026-06-22",
-      "iv": 0.3659,
-      "iv_rank": 0.7637,
-      "n": 252
+      "typical_iv": 0.2986,
+      "iv_rank": 0.6853,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.246,
+      "iv_minus_rv": 0.0526,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.3155,
+          "recovery_days": null,
+          "underwater_pct": -0.2895,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.4459,
+          "recovery_days": null,
+          "underwater_pct": -0.4248,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.552,
+          "recovery_days": null,
+          "underwater_pct": -0.5349,
+          "coverage_days": 1255
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.129,
+          "date": "2026-04-24",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.129,
+          "date": "2026-04-24",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.129,
+          "date": "2026-04-24",
+          "coverage_days": 1255
+        }
+      },
+      "spread_pct": 0.1111,
+      "option_volume": 38.2,
+      "option_volume_days": 4,
+      "market_cap": {
+        "usd": 82768537561,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "COIN",
-      "date": "2026-06-22",
-      "iv": 0.6733,
-      "iv_rank": 0.5341,
-      "n": 252
+      "typical_iv": 0.6439,
+      "iv_rank": 0.5472,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.6446,
+      "iv_minus_rv": -0.0007,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.6639,
+          "recovery_days": null,
+          "underwater_pct": -0.6605,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.6639,
+          "recovery_days": null,
+          "underwater_pct": -0.6605,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.909,
+          "recovery_days": 911,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.167,
+          "date": "2025-08-01",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1758,
+          "date": "2025-03-10",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.264,
+          "date": "2022-05-11",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.1039,
+      "option_volume": 704.5,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 39271496660,
+        "band": "Large",
+        "source": "finnhub"
+      }
+    },
+    {
+      "ticker": "COP",
+      "typical_iv": 0.3091,
+      "iv_rank": 0.3711,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.277,
+      "iv_minus_rv": 0.0321,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.2081,
+          "recovery_days": null,
+          "underwater_pct": -0.2081,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.3809,
+          "recovery_days": 353,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.3874,
+          "recovery_days": null,
+          "underwater_pct": -0.2148,
+          "coverage_days": 1255
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0497,
+          "date": "2026-04-08",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1023,
+          "date": "2025-04-03",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1023,
+          "date": "2025-04-03",
+          "coverage_days": 1255
+        }
+      },
+      "spread_pct": 0.0963,
+      "option_volume": 97.6,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 129090430888,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "COST",
-      "date": "2026-06-22",
-      "iv": 0.2058,
-      "iv_rank": 0.3759,
-      "n": 252
+      "typical_iv": 0.207,
+      "iv_rank": 0.1622,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.1813,
+      "iv_minus_rv": 0.0257,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1454,
+          "recovery_days": 46,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.2107,
+          "recovery_days": 148,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.3151,
+          "recovery_days": 566,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0391,
+          "date": "2026-05-29",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0764,
+          "date": "2024-03-08",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1245,
+          "date": "2022-05-18",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.1155,
+      "option_volume": 87.1,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 422431311587,
+        "band": "Mega",
+        "source": "finnhub"
+      }
+    },
+    {
+      "ticker": "CRM",
+      "typical_iv": 0.3984,
+      "iv_rank": 0.4701,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.35,
+      "iv_minus_rv": 0.0484,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.4514,
+          "recovery_days": null,
+          "underwater_pct": -0.4213,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.5919,
+          "recovery_days": null,
+          "underwater_pct": -0.5695,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.5919,
+          "recovery_days": null,
+          "underwater_pct": -0.5695,
+          "coverage_days": 1255
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0869,
+          "date": "2026-04-23",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1974,
+          "date": "2024-05-30",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1974,
+          "date": "2024-05-30",
+          "coverage_days": 1255
+        }
+      },
+      "spread_pct": 0.1031,
+      "option_volume": 35.6,
+      "option_volume_days": 5,
+      "market_cap": {
+        "usd": 129705032109,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "CSCO",
-      "date": "2026-06-22",
-      "iv": 0.3745,
-      "iv_rank": 0.7403,
-      "n": 252
+      "typical_iv": 0.2759,
+      "iv_rank": 0.6906,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.2343,
+      "iv_minus_rv": 0.0416,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1357,
+          "recovery_days": 67,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.2265,
+          "recovery_days": 93,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.386,
+          "recovery_days": 856,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.1232,
+          "date": "2026-02-12",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1232,
+          "date": "2026-02-12",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1373,
+          "date": "2022-05-19",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.0606,
+      "option_volume": 366.5,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 448417043442,
+        "band": "Mega",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "CVS",
-      "date": "2026-06-22",
-      "iv": 0.2873,
-      "iv_rank": 0.3314,
-      "n": 252
+      "typical_iv": 0.3036,
+      "iv_rank": 0.3098,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.2643,
+      "iv_minus_rv": 0.0393,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1644,
+          "recovery_days": 33,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.4623,
+          "recovery_days": 302,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.605,
+          "recovery_days": null,
+          "underwater_pct": -0.0557,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.1415,
+          "date": "2026-01-27",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1684,
+          "date": "2024-05-01",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1684,
+          "date": "2024-05-01",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.0616,
+      "option_volume": 20.2,
+      "option_volume_days": 4,
+      "market_cap": {
+        "usd": 133130253516,
+        "band": "Large",
+        "source": "finnhub"
+      }
+    },
+    {
+      "ticker": "CVX",
+      "typical_iv": 0.2504,
+      "iv_rank": 0.5256,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.1968,
+      "iv_minus_rv": 0.0536,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1899,
+          "recovery_days": null,
+          "underwater_pct": -0.1899,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.2181,
+          "recovery_days": 283,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.2889,
+          "recovery_days": 315,
+          "underwater_pct": null,
+          "coverage_days": 1255
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0459,
+          "date": "2026-04-01",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0822,
+          "date": "2025-04-04",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0822,
+          "date": "2025-04-04",
+          "coverage_days": 1255
+        }
+      },
+      "spread_pct": 0.0645,
+      "option_volume": 282.7,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 340682726825,
+        "band": "Mega",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "DAL",
-      "date": "2026-06-22",
-      "iv": 0.4717,
-      "iv_rank": 0.4728,
-      "n": 252
+      "typical_iv": 0.4261,
+      "iv_rank": 0.5229,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.4151,
+      "iv_minus_rv": 0.011,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.2311,
+          "recovery_days": 70,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.4805,
+          "recovery_days": 246,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.4805,
+          "recovery_days": 246,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0682,
+          "date": "2026-02-27",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1109,
+          "date": "2025-04-10",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1278,
+          "date": "2022-03-07",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.099,
+      "option_volume": 15.3,
+      "option_volume_days": 3,
+      "market_cap": {
+        "usd": 60817964951,
+        "band": "Large",
+        "source": "finnhub"
+      }
+    },
+    {
+      "ticker": "DE",
+      "typical_iv": 0.2798,
+      "iv_rank": 0.8199,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.2813,
+      "iv_minus_rv": -0.0015,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.2013,
+          "recovery_days": null,
+          "underwater_pct": -0.0743,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.2274,
+          "recovery_days": 109,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.3405,
+          "recovery_days": 142,
+          "underwater_pct": null,
+          "coverage_days": 1255
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0676,
+          "date": "2025-08-14",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0676,
+          "date": "2025-08-14",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1407,
+          "date": "2022-05-20",
+          "coverage_days": 1255
+        }
+      },
+      "spread_pct": 0.2768,
+      "option_volume": 2.0,
+      "option_volume_days": 4,
+      "market_cap": {
+        "usd": 165536437634,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "DELL",
-      "date": "2026-06-22",
-      "iv": 0.7781,
-      "iv_rank": 0.8918,
-      "n": 252
+      "typical_iv": 0.476,
+      "iv_rank": 0.9116,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.4844,
+      "iv_minus_rv": -0.0084,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.3264,
+          "recovery_days": 63,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.6003,
+          "recovery_days": 355,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.6003,
+          "recovery_days": 355,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0913,
+          "date": "2026-02-12",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1899,
+          "date": "2025-04-03",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1899,
+          "date": "2025-04-03",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.0881,
+      "option_volume": 11.8,
+      "option_volume_days": 4,
+      "market_cap": {
+        "usd": 258981801547,
+        "band": "Mega",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "DIA",
-      "date": "2026-06-22",
-      "iv": 0.128,
-      "iv_rank": 0.2317,
-      "n": 252
+      "typical_iv": 0.1292,
+      "iv_rank": 0.2503,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.1152,
+      "iv_minus_rv": 0.014,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1006,
+          "recovery_days": 55,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.1651,
+          "recovery_days": 136,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.219,
+          "recovery_days": 439,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0186,
+          "date": "2025-10-10",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0543,
+          "date": "2025-04-04",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0543,
+          "date": "2025-04-04",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.0799,
+      "option_volume": 139.8,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": null,
+        "band": "ETF",
+        "source": "etf"
+      }
     },
     {
       "ticker": "DIS",
-      "date": "2026-06-22",
-      "iv": 0.2725,
-      "iv_rank": 0.419,
-      "n": 252
+      "typical_iv": 0.2674,
+      "iv_rank": 0.3725,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.1986,
+      "iv_minus_rv": 0.0688,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.2547,
+          "recovery_days": null,
+          "underwater_pct": -0.2093,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.3346,
+          "recovery_days": 83,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.5733,
+          "recovery_days": null,
+          "underwater_pct": -0.4726,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0775,
+          "date": "2025-11-13",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0951,
+          "date": "2024-05-07",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1316,
+          "date": "2022-11-09",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.2413,
+      "option_volume": 1211.0,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 171549961857,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "DVN",
-      "date": "2026-06-22",
-      "iv": 0.3573,
-      "iv_rank": 0.255,
-      "n": 252
+      "typical_iv": 0.3668,
+      "iv_rank": 0.1201,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.3269,
+      "iv_minus_rv": 0.0399,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1911,
+          "recovery_days": null,
+          "underwater_pct": -0.1819,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.5083,
+          "recovery_days": null,
+          "underwater_pct": -0.2185,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.6566,
+          "recovery_days": null,
+          "underwater_pct": -0.4541,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0861,
+          "date": "2026-05-06",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1255,
+          "date": "2025-04-03",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1276,
+          "date": "2022-11-02",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.1585,
+      "option_volume": 26.8,
+      "option_volume_days": 4,
+      "market_cap": {
+        "usd": 48685142101,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "EEM",
-      "date": "2026-06-22",
-      "iv": 0.3299,
-      "iv_rank": 0.5813,
-      "n": 252
+      "typical_iv": 0.1898,
+      "iv_rank": 0.7252,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.1563,
+      "iv_minus_rv": 0.0335,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1352,
+          "recovery_days": 18,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.1867,
+          "recovery_days": 63,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.3892,
+          "recovery_days": 1099,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0653,
+          "date": "2026-06-05",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0653,
+          "date": "2026-06-05",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0653,
+          "date": "2026-06-05",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.122,
+      "option_volume": 244.1,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": null,
+        "band": "ETF",
+        "source": "etf"
+      }
     },
     {
       "ticker": "EFA",
-      "date": "2026-06-22",
-      "iv": 0.1408,
-      "iv_rank": 0.2713,
-      "n": 252
+      "typical_iv": 0.1481,
+      "iv_rank": 0.4008,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.132,
+      "iv_minus_rv": 0.0161,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1142,
+          "recovery_days": null,
+          "underwater_pct": -0.0238,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.1405,
+          "recovery_days": 24,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.3238,
+          "recovery_days": 618,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0311,
+          "date": "2026-03-03",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.066,
+          "date": "2025-04-04",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.066,
+          "date": "2025-04-04",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.6187,
+      "option_volume": null,
+      "option_volume_days": 0,
+      "market_cap": {
+        "usd": null,
+        "band": "ETF",
+        "source": "etf"
+      }
     },
     {
       "ticker": "F",
-      "date": "2026-06-22",
-      "iv": 0.4015,
-      "iv_rank": 0.6932,
-      "n": 252
+      "typical_iv": 0.3383,
+      "iv_rank": 0.6091,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.2937,
+      "iv_minus_rv": 0.0446,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.2231,
+          "recovery_days": 45,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.4339,
+          "recovery_days": 414,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.655,
+          "recovery_days": null,
+          "underwater_pct": -0.4399,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0746,
+          "date": "2026-05-15",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1836,
+          "date": "2024-07-25",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1836,
+          "date": "2024-07-25",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.0976,
+      "option_volume": 1264.6,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 56303705805,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "FCX",
-      "date": "2026-06-22",
-      "iv": 0.5243,
-      "iv_rank": 0.7128,
-      "n": 252
+      "typical_iv": 0.4308,
+      "iv_rank": 0.8939,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.4346,
+      "iv_minus_rv": -0.0038,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.2514,
+          "recovery_days": 77,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.4686,
+          "recovery_days": 277,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.5168,
+          "recovery_days": 655,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.1695,
+          "date": "2025-09-24",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1695,
+          "date": "2025-09-24",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1695,
+          "date": "2025-09-24",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.1043,
+      "option_volume": 1058.0,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 89775609322,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "FXI",
-      "date": "2026-06-22",
-      "iv": 0.2143,
-      "iv_rank": 0.4103,
-      "n": 252
+      "typical_iv": 0.2283,
+      "iv_rank": 0.5479,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.1934,
+      "iv_minus_rv": 0.0349,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.2412,
+          "recovery_days": null,
+          "underwater_pct": -0.2412,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.3051,
+          "recovery_days": 248,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.5563,
+          "recovery_days": null,
+          "underwater_pct": -0.3291,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0538,
+          "date": "2025-10-10",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0916,
+          "date": "2024-10-08",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0999,
+          "date": "2022-10-24",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.3086,
+      "option_volume": 605.8,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": null,
+        "band": "ETF",
+        "source": "etf"
+      }
     },
     {
       "ticker": "GDX",
-      "date": "2026-06-22",
-      "iv": 0.4493,
-      "iv_rank": 0.483,
-      "n": 252
+      "typical_iv": 0.4282,
+      "iv_rank": 0.4548,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.4295,
+      "iv_minus_rv": -0.0013,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.3628,
+          "recovery_days": null,
+          "underwater_pct": -0.3468,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.3628,
+          "recovery_days": null,
+          "underwater_pct": -0.3468,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.4651,
+          "recovery_days": 729,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.1276,
+          "date": "2026-01-30",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1276,
+          "date": "2026-01-30",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1276,
+          "date": "2026-01-30",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.1088,
+      "option_volume": 1738.9,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": null,
+        "band": "ETF",
+        "source": "etf"
+      }
     },
     {
       "ticker": "GDXJ",
-      "date": "2026-06-22",
-      "iv": 0.5039,
-      "iv_rank": 0.471,
-      "n": 252
+      "typical_iv": 0.4739,
+      "iv_rank": 0.3626,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.4521,
+      "iv_minus_rv": 0.0218,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.3947,
+          "recovery_days": null,
+          "underwater_pct": -0.3732,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.3947,
+          "recovery_days": null,
+          "underwater_pct": -0.3732,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.4879,
+          "recovery_days": 729,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.1363,
+          "date": "2026-01-30",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1363,
+          "date": "2026-01-30",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1363,
+          "date": "2026-01-30",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.322,
+      "option_volume": 221.8,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": null,
+        "band": "ETF",
+        "source": "etf"
+      }
     },
     {
       "ticker": "GE",
-      "date": "2026-06-22",
-      "iv": 0.3784,
-      "iv_rank": 0.6448,
-      "n": 252
+      "typical_iv": 0.3112,
+      "iv_rank": 0.8052,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.2732,
+      "iv_minus_rv": 0.038,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.2085,
+          "recovery_days": 78,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.2136,
+          "recovery_days": 34,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.4495,
+          "recovery_days": 232,
+          "underwater_pct": null,
+          "coverage_days": 1255
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0738,
+          "date": "2026-01-22",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.111,
+          "date": "2025-04-04",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.111,
+          "date": "2025-04-04",
+          "coverage_days": 1255
+        }
+      },
+      "spread_pct": 0.1088,
+      "option_volume": 10.8,
+      "option_volume_days": 6,
+      "market_cap": {
+        "usd": 384991441235,
+        "band": "Mega",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "GILD",
-      "date": "2026-06-22",
-      "iv": 0.2429,
-      "iv_rank": 0.1895,
-      "n": 252
+      "typical_iv": 0.288,
+      "iv_rank": 0.1566,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.2398,
+      "iv_minus_rv": 0.0482,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.2203,
+          "recovery_days": null,
+          "underwater_pct": -0.2051,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.2765,
+          "recovery_days": 121,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.2942,
+          "recovery_days": 136,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0428,
+          "date": "2025-07-11",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1015,
+          "date": "2024-01-22",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1015,
+          "date": "2024-01-22",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.1364,
+      "option_volume": 59.8,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 158771944425,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "GLD",
-      "date": "2026-06-22",
-      "iv": 0.2058,
-      "iv_rank": 0.2553,
-      "n": 252
+      "typical_iv": 0.2078,
+      "iv_rank": 0.3785,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.2041,
+      "iv_minus_rv": 0.0037,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.2621,
+          "recovery_days": null,
+          "underwater_pct": -0.255,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.2621,
+          "recovery_days": null,
+          "underwater_pct": -0.255,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.2621,
+          "recovery_days": null,
+          "underwater_pct": -0.255,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.1027,
+          "date": "2026-01-30",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1027,
+          "date": "2026-01-30",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1027,
+          "date": "2026-01-30",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.0307,
+      "option_volume": 1062.5,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": null,
+        "band": "ETF",
+        "source": "etf"
+      }
     },
     {
       "ticker": "GM",
-      "date": "2026-06-22",
-      "iv": 0.3685,
-      "iv_rank": 0.6202,
-      "n": 252
+      "typical_iv": 0.3235,
+      "iv_rank": 0.5884,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.2957,
+      "iv_minus_rv": 0.0278,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.162,
+          "recovery_days": null,
+          "underwater_pct": -0.0909,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.342,
+          "recovery_days": 111,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.5946,
+          "recovery_days": 712,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0812,
+          "date": "2025-07-22",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0899,
+          "date": "2024-11-26",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0899,
+          "date": "2024-11-26",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.0545,
+      "option_volume": 231.5,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 70420047990,
+        "band": "Large",
+        "source": "finnhub"
+      }
+    },
+    {
+      "ticker": "GME",
+      "typical_iv": 0.4973,
+      "iv_rank": 0.0506,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.3209,
+      "iv_minus_rv": 0.1764,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.2799,
+          "recovery_days": null,
+          "underwater_pct": -0.2142,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.6242,
+          "recovery_days": null,
+          "underwater_pct": -0.5536,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.8383,
+          "recovery_days": null,
+          "underwater_pct": -0.6484,
+          "coverage_days": 1255
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.1014,
+          "date": "2026-05-04",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.3938,
+          "date": "2024-06-07",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.3938,
+          "date": "2024-06-07",
+          "coverage_days": 1255
+        }
+      },
+      "spread_pct": 0.0488,
+      "option_volume": 492.6,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 9763521786,
+        "band": "Mid",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "GOOGL",
-      "date": "2026-06-22",
-      "iv": 0.3081,
-      "iv_rank": 0.3542,
-      "n": 252
+      "typical_iv": 0.3131,
+      "iv_rank": 0.2798,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.2583,
+      "iv_minus_rv": 0.0548,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.2042,
+          "recovery_days": 25,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.2989,
+          "recovery_days": 139,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.4432,
+          "recovery_days": 448,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0499,
+          "date": "2026-06-22",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0951,
+          "date": "2023-10-25",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0951,
+          "date": "2023-10-25",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.1403,
+      "option_volume": 1155.3,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 4107574798400,
+        "band": "Mega",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "GS",
-      "date": "2026-06-22",
-      "iv": 0.3655,
-      "iv_rank": 0.6983,
-      "n": 252
+      "typical_iv": 0.2853,
+      "iv_rank": 0.5412,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.2592,
+      "iv_minus_rv": 0.0261,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1984,
+          "recovery_days": 68,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.3124,
+          "recovery_days": 79,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.3399,
+          "recovery_days": 676,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0747,
+          "date": "2026-02-27",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0921,
+          "date": "2025-04-03",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0921,
+          "date": "2025-04-03",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.1273,
+      "option_volume": 39.9,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 300792501542,
+        "band": "Mega",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "HAL",
-      "date": "2026-06-22",
-      "iv": 0.363,
-      "iv_rank": 0.4924,
-      "n": 252
+      "typical_iv": 0.3735,
+      "iv_rank": 0.3585,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.3354,
+      "iv_minus_rv": 0.0381,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.2113,
+          "recovery_days": null,
+          "underwater_pct": -0.1933,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.5548,
+          "recovery_days": null,
+          "underwater_pct": -0.1986,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.5548,
+          "recovery_days": null,
+          "underwater_pct": -0.1986,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0611,
+          "date": "2025-10-10",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1288,
+          "date": "2025-04-03",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1288,
+          "date": "2025-04-03",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.1176,
+      "option_volume": 84.4,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 28578956069,
+        "band": "Large",
+        "source": "finnhub"
+      }
+    },
+    {
+      "ticker": "HON",
+      "typical_iv": 0.2295,
+      "iv_rank": 0.7779,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.2218,
+      "iv_minus_rv": 0.0077,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.2174,
+          "recovery_days": 82,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.2252,
+          "recovery_days": 84,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.287,
+          "recovery_days": 808,
+          "underwater_pct": null,
+          "coverage_days": 1255
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0618,
+          "date": "2025-07-24",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0759,
+          "date": "2025-04-04",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0762,
+          "date": "2022-02-03",
+          "coverage_days": 1255
+        }
+      },
+      "spread_pct": 0.3331,
+      "option_volume": 128.2,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 147140598487,
+        "band": "Large",
+        "source": "finnhub"
+      }
+    },
+    {
+      "ticker": "HOOD",
+      "typical_iv": 0.6503,
+      "iv_rank": 0.5758,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.6481,
+      "iv_minus_rv": 0.0022,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.5726,
+          "recovery_days": null,
+          "underwater_pct": -0.3527,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.5726,
+          "recovery_days": null,
+          "underwater_pct": -0.3527,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.9021,
+          "recovery_days": 1083,
+          "underwater_pct": null,
+          "coverage_days": 1233
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.1324,
+          "date": "2026-04-29",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1979,
+          "date": "2025-03-10",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.2759,
+          "date": "2021-08-05",
+          "coverage_days": 1233
+        }
+      },
+      "spread_pct": 0.1441,
+      "option_volume": 806.4,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 88949822441,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "HPQ",
-      "date": "2026-06-22",
-      "iv": 0.4331,
-      "iv_rank": 0.4113,
-      "n": 252
+      "typical_iv": 0.4037,
+      "iv_rank": 0.3667,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.3184,
+      "iv_minus_rv": 0.0853,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.3799,
+          "recovery_days": null,
+          "underwater_pct": -0.2191,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.5369,
+          "recovery_days": null,
+          "underwater_pct": -0.4168,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.5488,
+          "recovery_days": null,
+          "underwater_pct": -0.4318,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0699,
+          "date": "2026-06-02",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1471,
+          "date": "2025-04-03",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1471,
+          "date": "2025-04-03",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.0952,
+      "option_volume": 148.2,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 20924279562,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "HYG",
-      "date": "2026-06-22",
-      "iv": 0.0517,
-      "iv_rank": 0.0995,
-      "n": 252
+      "typical_iv": 0.0611,
+      "iv_rank": 0.1429,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.0401,
+      "iv_minus_rv": 0.021,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.032,
+          "recovery_days": null,
+          "underwater_pct": -0.0177,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.0574,
+          "recovery_days": 79,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.193,
+          "recovery_days": null,
+          "underwater_pct": -0.0937,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0093,
+          "date": "2026-03-20",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0163,
+          "date": "2025-04-10",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0335,
+          "date": "2022-06-13",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.099,
+      "option_volume": 8740.6,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": null,
+        "band": "ETF",
+        "source": "etf"
+      }
     },
     {
       "ticker": "IBM",
-      "date": "2026-06-22",
-      "iv": 0.4399,
-      "iv_rank": 0.6473,
-      "n": 252
+      "typical_iv": 0.3306,
+      "iv_rank": 0.553,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.3066,
+      "iv_minus_rv": 0.024,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.3186,
+          "recovery_days": 19,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.3186,
+          "recovery_days": 19,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.3186,
+          "recovery_days": 19,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.1315,
+          "date": "2026-02-23",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1315,
+          "date": "2026-02-23",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1315,
+          "date": "2026-02-23",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.0641,
+      "option_volume": 150.7,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 255301020658,
+        "band": "Mega",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "INTC",
-      "date": "2026-06-22",
-      "iv": 0.893,
-      "iv_rank": 0.9391,
-      "n": 252
+      "typical_iv": 0.58,
+      "iv_rank": 0.9137,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.6063,
+      "iv_minus_rv": -0.0263,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.2417,
+          "recovery_days": 9,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.6428,
+          "recovery_days": 288,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.6846,
+          "recovery_days": 365,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.1703,
+          "date": "2026-01-23",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.2606,
+          "date": "2024-08-02",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.2606,
+          "date": "2024-08-02",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.037,
+      "option_volume": 2041.2,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 644936296299,
+        "band": "Mega",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "IWM",
-      "date": "2026-06-22",
-      "iv": 0.2014,
-      "iv_rank": 0.2739,
-      "n": 252
+      "typical_iv": 0.2121,
+      "iv_rank": 0.3288,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.1924,
+      "iv_minus_rv": 0.0197,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1119,
+          "recovery_days": 17,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.2788,
+          "recovery_days": 163,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.3313,
+          "recovery_days": 692,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0355,
+          "date": "2026-06-05",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0642,
+          "date": "2025-04-03",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0642,
+          "date": "2025-04-03",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.0684,
+      "option_volume": 464.1,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": null,
+        "band": "ETF",
+        "source": "etf"
+      }
     },
     {
       "ticker": "JNJ",
-      "date": "2026-06-22",
-      "iv": 0.2511,
-      "iv_rank": 0.7734,
-      "n": 252
+      "typical_iv": 0.192,
+      "iv_rank": 0.7485,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.1555,
+      "iv_minus_rv": 0.0365,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1096,
+          "recovery_days": null,
+          "underwater_pct": -0.0148,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.1858,
+          "recovery_days": 216,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.2363,
+          "recovery_days": 264,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0248,
+          "date": "2026-06-18",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0759,
+          "date": "2025-04-01",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0759,
+          "date": "2025-04-01",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.1863,
+      "option_volume": 4.0,
+      "option_volume_days": 1,
+      "market_cap": {
+        "usd": 613021903889,
+        "band": "Mega",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "JPM",
-      "date": "2026-06-22",
-      "iv": 0.2784,
-      "iv_rank": 0.5014,
-      "n": 252
+      "typical_iv": 0.2415,
+      "iv_rank": 0.4619,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.206,
+      "iv_minus_rv": 0.0355,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1547,
+          "recovery_days": 90,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.2489,
+          "recovery_days": 81,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.4065,
+          "recovery_days": 448,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0466,
+          "date": "2025-12-09",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0805,
+          "date": "2025-04-04",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0805,
+          "date": "2025-04-04",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.1774,
+      "option_volume": 202.1,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 881693237874,
+        "band": "Mega",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "KEY",
-      "date": "2026-06-22",
-      "iv": 0.2516,
-      "iv_rank": 0.2561,
-      "n": 252
+      "typical_iv": 0.2834,
+      "iv_rank": 0.2966,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.2142,
+      "iv_minus_rv": 0.0692,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1857,
+          "recovery_days": 104,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.3375,
+          "recovery_days": 245,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.6694,
+          "recovery_days": null,
+          "underwater_pct": -0.1333,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0539,
+          "date": "2025-10-10",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1213,
+          "date": "2025-04-03",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.2733,
+          "date": "2023-03-13",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.2632,
+      "option_volume": 14.5,
+      "option_volume_days": 6,
+      "market_cap": {
+        "usd": 25106114690,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "KMI",
-      "date": "2026-06-22",
-      "iv": 0.2399,
-      "iv_rank": 0.4833,
-      "n": 252
+      "typical_iv": 0.2316,
+      "iv_rank": 0.2998,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.2007,
+      "iv_minus_rv": 0.0309,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1211,
+          "recovery_days": 79,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.1925,
+          "recovery_days": 309,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.2041,
+          "recovery_days": 281,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0475,
+          "date": "2025-10-23",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0928,
+          "date": "2025-01-27",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0928,
+          "date": "2025-01-27",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.3226,
+      "option_volume": 22.9,
+      "option_volume_days": 7,
+      "market_cap": {
+        "usd": 73841960684,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "KO",
-      "date": "2026-06-22",
-      "iv": 0.1486,
-      "iv_rank": 0.2933,
-      "n": 252
+      "typical_iv": 0.1806,
+      "iv_rank": 0.5928,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.1555,
+      "iv_minus_rv": 0.0251,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.085,
+          "recovery_days": 27,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.1692,
+          "recovery_days": 218,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.2089,
+          "recovery_days": 295,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0258,
+          "date": "2025-10-29",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0483,
+          "date": "2023-10-05",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0696,
+          "date": "2022-05-18",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.0536,
+      "option_volume": 73.1,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 355514114425,
+        "band": "Mega",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "KR",
-      "date": "2026-06-22",
-      "iv": 0.2826,
-      "iv_rank": 0.4996,
-      "n": 252
+      "typical_iv": 0.2674,
+      "iv_rank": 0.3247,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.2522,
+      "iv_minus_rv": 0.0152,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.2624,
+          "recovery_days": null,
+          "underwater_pct": -0.2358,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.2624,
+          "recovery_days": null,
+          "underwater_pct": -0.2358,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.3172,
+          "recovery_days": 787,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0843,
+          "date": "2026-06-18",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0843,
+          "date": "2026-06-18",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0843,
+          "date": "2026-06-18",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.5058,
+      "option_volume": 176.4,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 35594047700,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "KRE",
-      "date": "2026-06-22",
-      "iv": 0.2137,
-      "iv_rank": 0.1795,
-      "n": 252
+      "typical_iv": 0.261,
+      "iv_rank": 0.3352,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.2183,
+      "iv_minus_rv": 0.0427,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1495,
+          "recovery_days": 98,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.2916,
+          "recovery_days": 288,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.542,
+          "recovery_days": null,
+          "underwater_pct": -0.0509,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.062,
+          "date": "2025-10-16",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1033,
+          "date": "2025-04-03",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1231,
+          "date": "2023-03-13",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.1447,
+      "option_volume": 22.6,
+      "option_volume_days": 9,
+      "market_cap": {
+        "usd": null,
+        "band": "ETF",
+        "source": "etf"
+      }
     },
     {
       "ticker": "LYFT",
-      "date": "2026-06-22",
-      "iv": 0.4869,
-      "iv_rank": 0.2186,
-      "n": 252
+      "typical_iv": 0.5565,
+      "iv_rank": 0.1569,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.4331,
+      "iv_minus_rv": 0.1234,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.4851,
+          "recovery_days": null,
+          "underwater_pct": -0.4269,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.5523,
+          "recovery_days": 404,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.8728,
+          "recovery_days": null,
+          "underwater_pct": -0.7758,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.1697,
+          "date": "2026-02-11",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1723,
+          "date": "2024-08-07",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.3644,
+          "date": "2023-02-10",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.4151,
+      "option_volume": 167.5,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 5418069611,
+        "band": "Mid",
+        "source": "finnhub"
+      }
+    },
+    {
+      "ticker": "MA",
+      "typical_iv": 0.2239,
+      "iv_rank": 0.5181,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.203,
+      "iv_minus_rv": 0.0209,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.2127,
+          "recovery_days": null,
+          "underwater_pct": -0.1669,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.2127,
+          "recovery_days": null,
+          "underwater_pct": -0.1669,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.2857,
+          "recovery_days": 272,
+          "underwater_pct": null,
+          "coverage_days": 1255
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0577,
+          "date": "2026-02-23",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0769,
+          "date": "2025-04-04",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0769,
+          "date": "2025-04-04",
+          "coverage_days": 1255
+        }
+      },
+      "spread_pct": 0.2346,
+      "option_volume": 15.8,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 440926039849,
+        "band": "Mega",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "MARA",
-      "date": "2026-06-22",
-      "iv": 0.8253,
-      "iv_rank": 0.391,
-      "n": 252
+      "typical_iv": 0.8509,
+      "iv_rank": 0.4618,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.7135,
+      "iv_minus_rv": 0.1374,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.7053,
+          "recovery_days": null,
+          "underwater_pct": -0.3923,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.7834,
+          "recovery_days": null,
+          "underwater_pct": -0.5533,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.9587,
+          "recovery_days": null,
+          "underwater_pct": -0.8176,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.1872,
+          "date": "2026-02-05",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1872,
+          "date": "2026-02-05",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.2703,
+          "date": "2021-11-15",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.0905,
+      "option_volume": 431.0,
+      "option_volume_days": 3,
+      "market_cap": {
+        "usd": 5543673229,
+        "band": "Mid",
+        "source": "finnhub"
+      }
+    },
+    {
+      "ticker": "MCD",
+      "typical_iv": 0.1893,
+      "iv_rank": 0.4141,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.1656,
+      "iv_minus_rv": 0.0237,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.2244,
+          "recovery_days": null,
+          "underwater_pct": -0.2091,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.2244,
+          "recovery_days": null,
+          "underwater_pct": -0.2091,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.2244,
+          "recovery_days": null,
+          "underwater_pct": -0.2091,
+          "coverage_days": 1255
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0341,
+          "date": "2026-06-25",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0571,
+          "date": "2025-04-04",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0571,
+          "date": "2025-04-04",
+          "coverage_days": 1255
+        }
+      },
+      "spread_pct": 0.1726,
+      "option_volume": 125.1,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 191666066816,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "META",
-      "date": "2026-06-22",
-      "iv": 0.329,
-      "iv_rank": 0.4405,
-      "n": 252
+      "typical_iv": 0.3211,
+      "iv_rank": 0.4392,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.2911,
+      "iv_minus_rv": 0.03,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.3345,
+          "recovery_days": null,
+          "underwater_pct": -0.3128,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.3421,
+          "recovery_days": 70,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.7674,
+          "recovery_days": 442,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.1133,
+          "date": "2025-10-30",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1133,
+          "date": "2025-10-30",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.2639,
+          "date": "2022-02-03",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.0541,
+      "option_volume": 1054.8,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 1396767312605,
+        "band": "Mega",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "MO",
-      "date": "2026-06-22",
-      "iv": 0.2076,
-      "iv_rank": 0.3842,
-      "n": 252
+      "typical_iv": 0.2191,
+      "iv_rank": 0.3728,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.1942,
+      "iv_minus_rv": 0.0249,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1915,
+          "recovery_days": 43,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.1915,
+          "recovery_days": 43,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.306,
+          "recovery_days": 393,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0781,
+          "date": "2025-10-30",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0831,
+          "date": "2023-10-26",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0919,
+          "date": "2022-06-22",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.2821,
+      "option_volume": 6.1,
+      "option_volume_days": 8,
+      "market_cap": {
+        "usd": 123221272715,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "MRK",
-      "date": "2026-06-22",
-      "iv": 0.271,
-      "iv_rank": 0.3785,
-      "n": 252
+      "typical_iv": 0.2918,
+      "iv_rank": 0.5205,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.2556,
+      "iv_minus_rv": 0.0362,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.119,
+          "recovery_days": 56,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.4474,
+          "recovery_days": null,
+          "underwater_pct": -0.0565,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.4474,
+          "recovery_days": null,
+          "underwater_pct": -0.0565,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0444,
+          "date": "2025-07-31",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0981,
+          "date": "2024-07-30",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0986,
+          "date": "2021-11-05",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.0699,
+      "option_volume": 1.3,
+      "option_volume_days": 3,
+      "market_cap": {
+        "usd": 317767607665,
+        "band": "Mega",
+        "source": "finnhub"
+      }
+    },
+    {
+      "ticker": "MRNA",
+      "typical_iv": 0.7057,
+      "iv_rank": 0.6384,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.5821,
+      "iv_minus_rv": 0.1236,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.3551,
+          "recovery_days": 32,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.8658,
+          "recovery_days": null,
+          "underwater_pct": -0.5962,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.9538,
+          "recovery_days": null,
+          "underwater_pct": -0.8611,
+          "coverage_days": 1255
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0828,
+          "date": "2025-11-03",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.2101,
+          "date": "2024-08-01",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.2101,
+          "date": "2024-08-01",
+          "coverage_days": 1255
+        }
+      },
+      "spread_pct": 0.0427,
+      "option_volume": 28.5,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 26691811366,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "MS",
-      "date": "2026-06-22",
-      "iv": 0.3384,
-      "iv_rank": 0.5434,
-      "n": 252
+      "typical_iv": 0.2797,
+      "iv_rank": 0.5677,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.2389,
+      "iv_minus_rv": 0.0408,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1928,
+          "recovery_days": 34,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.2924,
+          "recovery_days": 89,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.3525,
+          "recovery_days": 348,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0619,
+          "date": "2026-02-27",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0951,
+          "date": "2025-04-03",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0951,
+          "date": "2025-04-03",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.1409,
+      "option_volume": 235.3,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 334431709757,
+        "band": "Mega",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "MSFT",
-      "date": "2026-06-22",
-      "iv": 0.2949,
-      "iv_rank": 0.54,
-      "n": 252
+      "typical_iv": 0.2574,
+      "iv_rank": 0.6831,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.2068,
+      "iv_minus_rv": 0.0506,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.3491,
+          "recovery_days": null,
+          "underwater_pct": -0.3491,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.3491,
+          "recovery_days": null,
+          "underwater_pct": -0.3491,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.3756,
+          "recovery_days": 224,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0999,
+          "date": "2026-01-29",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0999,
+          "date": "2026-01-29",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0999,
+          "date": "2026-01-29",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.1188,
+      "option_volume": 1373.1,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 2770583136248,
+        "band": "Mega",
+        "source": "finnhub"
+      }
+    },
+    {
+      "ticker": "MSTR",
+      "typical_iv": 0.6701,
+      "iv_rank": 0.7763,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.6237,
+      "iv_minus_rv": 0.0464,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.8195,
+          "recovery_days": null,
+          "underwater_pct": -0.8195,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.8263,
+          "recovery_days": null,
+          "underwater_pct": -0.8263,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.8412,
+          "recovery_days": 425,
+          "underwater_pct": null,
+          "coverage_days": 1255
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.1712,
+          "date": "2026-02-05",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.2121,
+          "date": "2024-03-05",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.2553,
+          "date": "2022-05-09",
+          "coverage_days": 1255
+        }
+      },
+      "spread_pct": 0.0429,
+      "option_volume": 2326.8,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 28845343989,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "MU",
-      "date": "2026-06-22",
-      "iv": 1.1678,
-      "iv_rank": 1.0,
-      "n": 252
+      "typical_iv": 0.6546,
+      "iv_rank": 0.728,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.6367,
+      "iv_minus_rv": 0.0179,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.3031,
+          "recovery_days": 15,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.5782,
+          "recovery_days": 161,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.5782,
+          "recovery_days": 161,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.1325,
+          "date": "2026-06-05",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1618,
+          "date": "2024-12-19",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1618,
+          "date": "2024-12-19",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.0808,
+      "option_volume": 17.8,
+      "option_volume_days": 9,
+      "market_cap": {
+        "usd": 1276967111827,
+        "band": "Mega",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "NCLH",
-      "date": "2026-06-22",
-      "iv": 0.5255,
-      "iv_rank": 0.4507,
-      "n": 252
+      "typical_iv": 0.5087,
+      "iv_rank": 0.5764,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.4812,
+      "iv_minus_rv": 0.0275,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.451,
+          "recovery_days": null,
+          "underwater_pct": -0.2212,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.4912,
+          "recovery_days": null,
+          "underwater_pct": -0.2783,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.6483,
+          "recovery_days": null,
+          "underwater_pct": -0.2891,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.1528,
+          "date": "2025-11-04",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1636,
+          "date": "2025-04-03",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1804,
+          "date": "2022-09-30",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.0359,
+      "option_volume": 284.1,
+      "option_volume_days": 9,
+      "market_cap": {
+        "usd": 9751499117,
+        "band": "Mid",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "NEM",
-      "date": "2026-06-22",
-      "iv": 0.4455,
-      "iv_rank": 0.4493,
-      "n": 252
+      "typical_iv": 0.4313,
+      "iv_rank": 0.3138,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.4486,
+      "iv_minus_rv": -0.0173,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.2969,
+          "recovery_days": null,
+          "underwater_pct": -0.2774,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.3695,
+          "recovery_days": 175,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.6504,
+          "recovery_days": 582,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.1149,
+          "date": "2026-01-30",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.147,
+          "date": "2024-10-24",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.147,
+          "date": "2024-10-24",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.1988,
+      "option_volume": 271.5,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 102623842713,
+        "band": "Large",
+        "source": "finnhub"
+      }
+    },
+    {
+      "ticker": "NFLX",
+      "typical_iv": 0.3428,
+      "iv_rank": 0.9192,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.2699,
+      "iv_minus_rv": 0.0729,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.4705,
+          "recovery_days": null,
+          "underwater_pct": -0.4488,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.4705,
+          "recovery_days": null,
+          "underwater_pct": -0.4488,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.7594,
+          "recovery_days": 832,
+          "underwater_pct": null,
+          "coverage_days": 1255
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.1007,
+          "date": "2025-10-22",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1007,
+          "date": "2025-10-22",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.3511,
+          "date": "2022-04-20",
+          "coverage_days": 1255
+        }
+      },
+      "spread_pct": 0.0248,
+      "option_volume": 8338.8,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 310799032153,
+        "band": "Mega",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "NIO",
-      "date": "2026-06-22",
-      "iv": 0.4975,
-      "iv_rank": 0.0953,
-      "n": 252
+      "typical_iv": 0.6368,
+      "iv_rank": 0.1502,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.5727,
+      "iv_minus_rv": 0.0641,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.4373,
+          "recovery_days": null,
+          "underwater_pct": -0.4005,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.7969,
+          "recovery_days": null,
+          "underwater_pct": -0.694,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.941,
+          "recovery_days": null,
+          "underwater_pct": -0.9111,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.1005,
+          "date": "2025-10-10",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1707,
+          "date": "2023-09-19",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1707,
+          "date": "2023-09-19",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.125,
+      "option_volume": 492.3,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 11453121390,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "NVDA",
-      "date": "2026-06-22",
-      "iv": 0.3352,
-      "iv_rank": 0.1959,
-      "n": 252
+      "typical_iv": 0.3783,
+      "iv_rank": 0.2842,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.3287,
+      "iv_minus_rv": 0.0496,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.2022,
+          "recovery_days": 25,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.3689,
+          "recovery_days": 82,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.6636,
+          "recovery_days": 223,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.062,
+          "date": "2026-06-05",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1697,
+          "date": "2025-01-27",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1697,
+          "date": "2025-01-27",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.1034,
+      "option_volume": 965.2,
+      "option_volume_days": 4,
+      "market_cap": {
+        "usd": 4659226130755,
+        "band": "Mega",
+        "source": "finnhub"
+      }
+    },
+    {
+      "ticker": "NVDL",
+      "typical_iv": 0.769,
+      "iv_rank": 0.3367,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.6529,
+      "iv_minus_rv": 0.1161,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.4222,
+          "recovery_days": 43,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.6756,
+          "recovery_days": 115,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.6756,
+          "recovery_days": 115,
+          "underwater_pct": null,
+          "coverage_days": 886
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.1236,
+          "date": "2026-06-05",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.3377,
+          "date": "2025-01-27",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.3377,
+          "date": "2025-01-27",
+          "coverage_days": 886
+        }
+      },
+      "spread_pct": 1.0417,
+      "option_volume": 3.0,
+      "option_volume_days": 1,
+      "market_cap": {
+        "usd": null,
+        "band": null,
+        "source": "finnhub-none"
+      }
     },
     {
       "ticker": "OKE",
-      "date": "2026-06-22",
-      "iv": 0.2941,
-      "iv_rank": 0.3289,
-      "n": 252
+      "typical_iv": 0.2916,
+      "iv_rank": 0.2155,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.2563,
+      "iv_minus_rv": 0.0353,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.2295,
+          "recovery_days": 99,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.4506,
+          "recovery_days": null,
+          "underwater_pct": -0.2352,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.4506,
+          "recovery_days": null,
+          "underwater_pct": -0.2352,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0517,
+          "date": "2025-08-05",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1277,
+          "date": "2025-04-04",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1277,
+          "date": "2025-04-04",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.3418,
+      "option_volume": 25.4,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 56211533047,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "ORCL",
-      "date": "2026-06-22",
-      "iv": 0.5361,
-      "iv_rank": 0.4619,
-      "n": 252
+      "typical_iv": 0.5187,
+      "iv_rank": 0.4343,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.5053,
+      "iv_minus_rv": 0.0134,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.5843,
+          "recovery_days": null,
+          "underwater_pct": -0.5357,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.5843,
+          "recovery_days": null,
+          "underwater_pct": -0.5357,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.5843,
+          "recovery_days": null,
+          "underwater_pct": -0.5357,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.1083,
+          "date": "2025-12-11",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1379,
+          "date": "2025-01-27",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1379,
+          "date": "2025-01-27",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.0631,
+      "option_volume": 963.3,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 427836368638,
+        "band": "Mega",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "OXY",
-      "date": "2026-06-22",
-      "iv": 0.3307,
-      "iv_rank": 0.2097,
-      "n": 252
-    },
-    {
-      "ticker": "PARA",
-      "date": "2025-08-06",
-      "iv": 0.5863,
-      "iv_rank": 0.3434,
-      "n": 252
+      "typical_iv": 0.3434,
+      "iv_rank": 0.1606,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.3337,
+      "iv_minus_rv": 0.0097,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.2287,
+          "recovery_days": null,
+          "underwater_pct": -0.2269,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.4786,
+          "recovery_days": null,
+          "underwater_pct": -0.2606,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.5247,
+          "recovery_days": null,
+          "underwater_pct": -0.3259,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0731,
+          "date": "2025-10-02",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1101,
+          "date": "2025-04-03",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1101,
+          "date": "2025-04-03",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.0334,
+      "option_volume": 558.5,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 49721787993,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "PEP",
-      "date": "2026-06-22",
-      "iv": 0.2753,
-      "iv_rank": 0.7998,
-      "n": 252
+      "typical_iv": 0.2362,
+      "iv_rank": 0.7708,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.1927,
+      "iv_minus_rv": 0.0435,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1817,
+          "recovery_days": null,
+          "underwater_pct": -0.1817,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.3318,
+          "recovery_days": null,
+          "underwater_pct": -0.2718,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.3472,
+          "recovery_days": null,
+          "underwater_pct": -0.2886,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0346,
+          "date": "2025-07-31",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0522,
+          "date": "2023-10-05",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.062,
+          "date": "2022-05-18",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.0823,
+      "option_volume": 395.7,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 193247394605,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "PFE",
-      "date": "2026-06-22",
-      "iv": 0.1891,
-      "iv_rank": 0.098,
-      "n": 252
+      "typical_iv": 0.2366,
+      "iv_rank": 0.0858,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.217,
+      "iv_minus_rv": 0.0196,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1709,
+          "recovery_days": null,
+          "underwater_pct": -0.1709,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.4244,
+          "recovery_days": null,
+          "underwater_pct": -0.369,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.6475,
+          "recovery_days": null,
+          "underwater_pct": -0.6136,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0398,
+          "date": "2025-09-12",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0672,
+          "date": "2023-12-13",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0672,
+          "date": "2023-12-13",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.25,
+      "option_volume": 776.1,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 138439491506,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "PG",
-      "date": "2026-06-22",
-      "iv": 0.2043,
-      "iv_rank": 0.3969,
-      "n": 252
+      "typical_iv": 0.1933,
+      "iv_rank": 0.4534,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.1711,
+      "iv_minus_rv": 0.0222,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1615,
+          "recovery_days": null,
+          "underwater_pct": -0.1118,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.2318,
+          "recovery_days": null,
+          "underwater_pct": -0.1736,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.2463,
+          "recovery_days": 571,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0356,
+          "date": "2025-12-08",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0501,
+          "date": "2025-04-04",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0623,
+          "date": "2022-05-18",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.1337,
+      "option_volume": 299.5,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 347007841025,
+        "band": "Mega",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "PINS",
-      "date": "2026-06-22",
-      "iv": 0.5155,
-      "iv_rank": 0.3952,
-      "n": 252
+      "typical_iv": 0.5146,
+      "iv_rank": 0.4426,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.4243,
+      "iv_minus_rv": 0.0903,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.6063,
+          "recovery_days": null,
+          "underwater_pct": -0.5027,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.6572,
+          "recovery_days": null,
+          "underwater_pct": -0.5669,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.8079,
+          "recovery_days": null,
+          "underwater_pct": -0.7574,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.2176,
+          "date": "2025-11-05",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.2176,
+          "date": "2025-11-05",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.2364,
+          "date": "2022-05-24",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.1005,
+      "option_volume": 54.3,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 11662475216,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "PLTR",
-      "date": "2026-06-22",
-      "iv": 0.4872,
-      "iv_rank": 0.3149,
-      "n": 252
+      "typical_iv": 0.5251,
+      "iv_rank": 0.4235,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.4811,
+      "iv_minus_rv": 0.044,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.4822,
+          "recovery_days": null,
+          "underwater_pct": -0.4822,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.4822,
+          "recovery_days": null,
+          "underwater_pct": -0.4822,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.7914,
+          "recovery_days": 574,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.1162,
+          "date": "2026-02-04",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1511,
+          "date": "2024-05-07",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.2131,
+          "date": "2022-05-09",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.0628,
+      "option_volume": 1473.6,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 270728468331,
+        "band": "Mega",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "PLUG",
-      "date": "2026-06-22",
-      "iv": 0.8578,
-      "iv_rank": 0.1208,
-      "n": 252
+      "typical_iv": 1.0262,
+      "iv_rank": 0.1653,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.9028,
+      "iv_minus_rv": 0.1234,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.5666,
+          "recovery_days": 89,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.9469,
+          "recovery_days": null,
+          "underwater_pct": -0.8049,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.9843,
+          "recovery_days": null,
+          "underwater_pct": -0.9423,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.1121,
+          "date": "2025-11-19",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.4047,
+          "date": "2023-11-10",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.4047,
+          "date": "2023-11-10",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.9333,
+      "option_volume": 379.0,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 3543475401,
+        "band": "Mid",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "PNC",
-      "date": "2026-06-22",
-      "iv": 0.2945,
-      "iv_rank": 0.4089,
-      "n": 252
+      "typical_iv": 0.2501,
+      "iv_rank": 0.4381,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.1967,
+      "iv_minus_rv": 0.0534,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1721,
+          "recovery_days": 101,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.3034,
+          "recovery_days": 272,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.5155,
+          "recovery_days": 833,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0524,
+          "date": "2026-02-23",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0888,
+          "date": "2025-04-03",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0888,
+          "date": "2025-04-03",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.2668,
+      "option_volume": 5.0,
+      "option_volume_days": 1,
+      "market_cap": {
+        "usd": 98379319740,
+        "band": "Large",
+        "source": "finnhub"
+      }
+    },
+    {
+      "ticker": "PSKY",
+      "typical_iv": 0.5504,
+      "iv_rank": 0.0247,
+      "iv_coverage_n": 220,
+      "realized_vol": 0.4785,
+      "iv_minus_rv": 0.0719,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.5545,
+          "recovery_days": null,
+          "underwater_pct": -0.5114,
+          "coverage_days": 223
+        },
+        "3y": {
+          "max_dd": -0.5545,
+          "recovery_days": null,
+          "underwater_pct": -0.5114,
+          "coverage_days": 223
+        },
+        "5y": {
+          "max_dd": -0.5545,
+          "recovery_days": null,
+          "underwater_pct": -0.5114,
+          "coverage_days": 223
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.1048,
+          "date": "2025-08-08",
+          "coverage_days": 223
+        },
+        "3y": {
+          "pct": -0.1048,
+          "date": "2025-08-08",
+          "coverage_days": 223
+        },
+        "5y": {
+          "pct": -0.1048,
+          "date": "2025-08-08",
+          "coverage_days": 223
+        }
+      },
+      "spread_pct": 1.52,
+      "option_volume": 338.2,
+      "option_volume_days": 5,
+      "market_cap": {
+        "usd": 10788828653,
+        "band": "Large",
+        "source": "finnhub"
+      }
+    },
+    {
+      "ticker": "PYPL",
+      "typical_iv": 0.3672,
+      "iv_rank": 0.1092,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.3217,
+      "iv_minus_rv": 0.0455,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.5004,
+          "recovery_days": null,
+          "underwater_pct": -0.4338,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.5743,
+          "recovery_days": null,
+          "underwater_pct": -0.5176,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.8733,
+          "recovery_days": null,
+          "underwater_pct": -0.8564,
+          "coverage_days": 1255
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.2031,
+          "date": "2026-02-03",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.2031,
+          "date": "2026-02-03",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.2459,
+          "date": "2022-02-02",
+          "coverage_days": 1255
+        }
+      },
+      "spread_pct": 0.1834,
+      "option_volume": 7.2,
+      "option_volume_days": 4,
+      "market_cap": {
+        "usd": 39068454898,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "QCOM",
-      "date": "2026-06-22",
-      "iv": 0.8572,
-      "iv_rank": 0.8578,
-      "n": 252
+      "typical_iv": 0.3536,
+      "iv_rank": 0.6716,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.3027,
+      "iv_minus_rv": 0.0509,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.3389,
+          "recovery_days": 29,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.4537,
+          "recovery_days": 34,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.4557,
+          "recovery_days": 357,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.1146,
+          "date": "2026-05-12",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1146,
+          "date": "2026-05-12",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1146,
+          "date": "2026-05-12",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.0717,
+      "option_volume": 490.8,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 199617054054,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "QQQ",
-      "date": "2026-06-22",
-      "iv": 0.2301,
-      "iv_rank": 0.6092,
-      "n": 252
+      "typical_iv": 0.1837,
+      "iv_rank": 0.7974,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.1563,
+      "iv_minus_rv": 0.0274,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1219,
+          "recovery_days": 16,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.2288,
+          "recovery_days": 77,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.3562,
+          "recovery_days": 352,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.048,
+          "date": "2026-06-05",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0621,
+          "date": "2025-04-04",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0621,
+          "date": "2025-04-04",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.1618,
+      "option_volume": 3004.3,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": null,
+        "band": "ETF",
+        "source": "etf"
+      }
     },
     {
       "ticker": "RIOT",
-      "date": "2026-06-22",
-      "iv": 0.7992,
-      "iv_rank": 0.3826,
-      "n": 252
+      "typical_iv": 0.8327,
+      "iv_rank": 0.7041,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.793,
+      "iv_minus_rv": 0.0397,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.4857,
+          "recovery_days": 37,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.69,
+          "recovery_days": 168,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.9255,
+          "recovery_days": null,
+          "underwater_pct": -0.3718,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.1775,
+          "date": "2025-08-01",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1775,
+          "date": "2025-08-01",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1918,
+          "date": "2022-05-09",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.0706,
+      "option_volume": 91.8,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 10803780290,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "RIVN",
-      "date": "2026-06-22",
-      "iv": 0.6146,
-      "iv_rank": 0.4495,
-      "n": 252
+      "typical_iv": 0.6415,
+      "iv_rank": 0.6686,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.4846,
+      "iv_minus_rv": 0.1569,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.4254,
+          "recovery_days": null,
+          "underwater_pct": -0.3381,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.6961,
+          "recovery_days": null,
+          "underwater_pct": -0.4624,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.9512,
+          "recovery_days": null,
+          "underwater_pct": -0.9136,
+          "coverage_days": 1159
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0977,
+          "date": "2026-06-05",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.256,
+          "date": "2024-02-22",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.256,
+          "date": "2024-02-22",
+          "coverage_days": 1159
+        }
+      },
+      "spread_pct": 0.0118,
+      "option_volume": 278.2,
+      "option_volume_days": 4,
+      "market_cap": {
+        "usd": 19700328962,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "SCHW",
-      "date": "2026-06-22",
-      "iv": 0.2641,
-      "iv_rank": 0.4374,
-      "n": 252
+      "typical_iv": 0.2674,
+      "iv_rank": 0.3961,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.2066,
+      "iv_minus_rv": 0.0608,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.2039,
+          "recovery_days": null,
+          "underwater_pct": -0.1657,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.2739,
+          "recovery_days": 52,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.5041,
+          "recovery_days": 806,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0763,
+          "date": "2026-04-16",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1018,
+          "date": "2024-07-16",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1277,
+          "date": "2023-03-09",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.1627,
+      "option_volume": 213.9,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 157687419912,
+        "band": "Large",
+        "source": "finnhub"
+      }
+    },
+    {
+      "ticker": "SHOP",
+      "typical_iv": 0.5577,
+      "iv_rank": 0.4236,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.5114,
+      "iv_minus_rv": 0.0463,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.4671,
+          "recovery_days": null,
+          "underwater_pct": -0.3472,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.4671,
+          "recovery_days": null,
+          "underwater_pct": -0.3472,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.8482,
+          "recovery_days": 1109,
+          "underwater_pct": null,
+          "coverage_days": 1255
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.1562,
+          "date": "2026-05-05",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1859,
+          "date": "2024-05-08",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1859,
+          "date": "2024-05-08",
+          "coverage_days": 1255
+        }
+      },
+      "spread_pct": 0.2431,
+      "option_volume": 37.3,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 151643921778,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "SLB",
-      "date": "2026-06-22",
-      "iv": 0.3635,
-      "iv_rank": 0.422,
-      "n": 252
+      "typical_iv": 0.3469,
+      "iv_rank": 0.3937,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.3124,
+      "iv_minus_rv": 0.0345,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1965,
+          "recovery_days": null,
+          "underwater_pct": -0.1826,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.4892,
+          "recovery_days": null,
+          "underwater_pct": -0.2364,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.4892,
+          "recovery_days": null,
+          "underwater_pct": -0.2364,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0749,
+          "date": "2026-03-12",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.113,
+          "date": "2025-04-04",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.116,
+          "date": "2022-05-09",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.0278,
+      "option_volume": 20.8,
+      "option_volume_days": 4,
+      "market_cap": {
+        "usd": 70267705294,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "SLV",
-      "date": "2026-06-22",
-      "iv": 0.3938,
-      "iv_rank": 0.198,
-      "n": 252
+      "typical_iv": 0.4442,
+      "iv_rank": 0.27,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.4488,
+      "iv_minus_rv": -0.0046,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.5097,
+          "recovery_days": null,
+          "underwater_pct": -0.5042,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.5097,
+          "recovery_days": null,
+          "underwater_pct": -0.5042,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.5097,
+          "recovery_days": null,
+          "underwater_pct": -0.5042,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.2854,
+          "date": "2026-01-30",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.2854,
+          "date": "2026-01-30",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.2854,
+          "date": "2026-01-30",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.0456,
+      "option_volume": 250.7,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": null,
+        "band": "ETF",
+        "source": "etf"
+      }
     },
     {
       "ticker": "SMH",
-      "date": "2026-06-22",
-      "iv": 0.5464,
-      "iv_rank": 0.9996,
-      "n": 252
+      "typical_iv": 0.3433,
+      "iv_rank": 0.8732,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.3136,
+      "iv_minus_rv": 0.0297,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1493,
+          "recovery_days": 10,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.3602,
+          "recovery_days": 86,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.453,
+          "recovery_days": 276,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0922,
+          "date": "2026-06-05",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0983,
+          "date": "2025-01-27",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0983,
+          "date": "2025-01-27",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.0386,
+      "option_volume": 1566.9,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": null,
+        "band": "ETF",
+        "source": "etf"
+      }
     },
     {
       "ticker": "SNAP",
-      "date": "2026-06-22",
-      "iv": 0.5839,
-      "iv_rank": 0.3045,
-      "n": 252
+      "typical_iv": 0.6088,
+      "iv_rank": 0.2754,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.5067,
+      "iv_minus_rv": 0.1021,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.6203,
+          "recovery_days": null,
+          "underwater_pct": -0.5807,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.7748,
+          "recovery_days": null,
+          "underwater_pct": -0.7513,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.9527,
+          "recovery_days": null,
+          "underwater_pct": -0.9478,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.1715,
+          "date": "2025-08-06",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.3461,
+          "date": "2024-02-07",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.4308,
+          "date": "2022-05-24",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.0645,
+      "option_volume": 2449.8,
+      "option_volume_days": 4,
+      "market_cap": {
+        "usd": 7308080409,
+        "band": "Mid",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "SOFI",
-      "date": "2026-06-22",
-      "iv": 0.5618,
-      "iv_rank": 0.2682,
-      "n": 252
+      "typical_iv": 0.6062,
+      "iv_rank": 0.2902,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.502,
+      "iv_minus_rv": 0.1042,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.5296,
+          "recovery_days": null,
+          "underwater_pct": -0.4629,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.5296,
+          "recovery_days": null,
+          "underwater_pct": -0.4629,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.8154,
+          "recovery_days": 979,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.1544,
+          "date": "2026-04-29",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1544,
+          "date": "2026-04-29",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1544,
+          "date": "2026-04-29",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.0302,
+      "option_volume": 911.9,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 22935411841,
+        "band": "Large",
+        "source": "finnhub"
+      }
+    },
+    {
+      "ticker": "SOXL",
+      "typical_iv": 1.0293,
+      "iv_rank": 0.9949,
+      "iv_coverage_n": 252,
+      "realized_vol": 1.0511,
+      "iv_minus_rv": -0.0218,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.4347,
+          "recovery_days": 10,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.8797,
+          "recovery_days": 295,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.9051,
+          "recovery_days": 1274,
+          "underwater_pct": null,
+          "coverage_days": 1255
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.3051,
+          "date": "2026-06-05",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.3051,
+          "date": "2026-06-05",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.3051,
+          "date": "2026-06-05",
+          "coverage_days": 1255
+        }
+      },
+      "spread_pct": 0.0728,
+      "option_volume": 116.0,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": null,
+        "band": null,
+        "source": "finnhub-none"
+      }
     },
     {
       "ticker": "SPY",
-      "date": "2026-06-22",
-      "iv": 0.1275,
-      "iv_rank": 0.1916,
-      "n": 252
+      "typical_iv": 0.1316,
+      "iv_rank": 0.2631,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.1143,
+      "iv_minus_rv": 0.0173,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.0913,
+          "recovery_days": 16,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.19,
+          "recovery_days": 80,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.2536,
+          "recovery_days": 464,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.027,
+          "date": "2025-10-10",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0585,
+          "date": "2025-04-04",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0585,
+          "date": "2025-04-04",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.0086,
+      "option_volume": 5811.5,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": null,
+        "band": "ETF",
+        "source": "etf"
+      }
+    },
+    {
+      "ticker": "SQQQ",
+      "typical_iv": 0.5989,
+      "iv_rank": 0.7074,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.478,
+      "iv_minus_rv": 0.1209,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.6382,
+          "recovery_days": null,
+          "underwater_pct": -0.5883,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.9371,
+          "recovery_days": null,
+          "underwater_pct": -0.9284,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.978,
+          "recovery_days": null,
+          "underwater_pct": -0.975,
+          "coverage_days": 1255
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0999,
+          "date": "2026-03-31",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.3528,
+          "date": "2025-04-09",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.3528,
+          "date": "2025-04-09",
+          "coverage_days": 1255
+        }
+      },
+      "spread_pct": 0.3265,
+      "option_volume": 25.1,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": null,
+        "band": null,
+        "source": "finnhub-none"
+      }
     },
     {
       "ticker": "T",
-      "date": "2026-06-22",
-      "iv": 0.2886,
-      "iv_rank": 0.7139,
-      "n": 252
+      "typical_iv": 0.2392,
+      "iv_rank": 0.4929,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.2084,
+      "iv_minus_rv": 0.0308,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.2355,
+          "recovery_days": null,
+          "underwater_pct": -0.2108,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.2355,
+          "recovery_days": null,
+          "underwater_pct": -0.2108,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.3201,
+          "recovery_days": 346,
+          "underwater_pct": null,
+          "coverage_days": 1255
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0443,
+          "date": "2025-10-06",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0682,
+          "date": "2025-04-04",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1045,
+          "date": "2023-04-20",
+          "coverage_days": 1255
+        }
+      },
+      "spread_pct": 0.135,
+      "option_volume": 203.1,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 157866259599,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "TGT",
-      "date": "2026-06-22",
-      "iv": 0.2763,
-      "iv_rank": 0.0376,
-      "n": 252
+      "typical_iv": 0.3387,
+      "iv_rank": 0.0326,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.2988,
+      "iv_minus_rv": 0.0399,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.2211,
+          "recovery_days": 54,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.5294,
+          "recovery_days": null,
+          "underwater_pct": -0.2151,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.6859,
+          "recovery_days": null,
+          "underwater_pct": -0.4761,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0633,
+          "date": "2025-08-20",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.2197,
+          "date": "2024-11-20",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.2493,
+          "date": "2022-05-18",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.162,
+      "option_volume": 117.5,
+      "option_volume_days": 6,
+      "market_cap": {
+        "usd": 63763896310,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "TLT",
-      "date": "2026-06-22",
-      "iv": 0.096,
-      "iv_rank": 0.1791,
-      "n": 252
+      "typical_iv": 0.1202,
+      "iv_rank": 0.1799,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.0933,
+      "iv_minus_rv": 0.0269,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.0982,
+          "recovery_days": null,
+          "underwater_pct": -0.0512,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.2011,
+          "recovery_days": null,
+          "underwater_pct": -0.1569,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.4638,
+          "recovery_days": null,
+          "underwater_pct": -0.4341,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.019,
+          "date": "2026-03-20",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0302,
+          "date": "2025-04-07",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0342,
+          "date": "2022-03-02",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.0682,
+      "option_volume": 3822.0,
+      "option_volume_days": 3,
+      "market_cap": {
+        "usd": null,
+        "band": "ETF",
+        "source": "etf"
+      }
+    },
+    {
+      "ticker": "TQQQ",
+      "typical_iv": 0.5675,
+      "iv_rank": 1.0,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.4652,
+      "iv_minus_rv": 0.1023,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.3717,
+          "recovery_days": 25,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.5831,
+          "recovery_days": 126,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.8176,
+          "recovery_days": 714,
+          "underwater_pct": null,
+          "coverage_days": 1255
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.1428,
+          "date": "2026-06-05",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1829,
+          "date": "2025-04-04",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1829,
+          "date": "2025-04-04",
+          "coverage_days": 1255
+        }
+      },
+      "spread_pct": 0.1169,
+      "option_volume": 933.8,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": null,
+        "band": null,
+        "source": "finnhub-none"
+      }
     },
     {
       "ticker": "TSLA",
-      "date": "2026-06-22",
-      "iv": 0.4146,
-      "iv_rank": 0.1696,
-      "n": 252
+      "typical_iv": 0.4492,
+      "iv_rank": 0.1764,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.4239,
+      "iv_minus_rv": 0.0253,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.2993,
+          "recovery_days": null,
+          "underwater_pct": -0.2343,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.5377,
+          "recovery_days": 252,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.7363,
+          "recovery_days": 708,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.082,
+          "date": "2025-07-24",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1543,
+          "date": "2025-03-10",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1543,
+          "date": "2025-03-10",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.0244,
+      "option_volume": 1427.2,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 1426085802052,
+        "band": "Mega",
+        "source": "finnhub"
+      }
+    },
+    {
+      "ticker": "TSLL",
+      "typical_iv": 0.9121,
+      "iv_rank": 0.2572,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.8431,
+      "iv_minus_rv": 0.069,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.5532,
+          "recovery_days": null,
+          "underwater_pct": -0.4954,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.8309,
+          "recovery_days": null,
+          "underwater_pct": -0.7102,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.8309,
+          "recovery_days": null,
+          "underwater_pct": -0.7102,
+          "coverage_days": 974
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.1675,
+          "date": "2025-07-24",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.3077,
+          "date": "2025-03-10",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.3077,
+          "date": "2025-03-10",
+          "coverage_days": 974
+        }
+      },
+      "spread_pct": 0.3046,
+      "option_volume": 48.8,
+      "option_volume_days": 5,
+      "market_cap": {
+        "usd": null,
+        "band": null,
+        "source": "finnhub-none"
+      }
     },
     {
       "ticker": "UAL",
-      "date": "2026-06-22",
-      "iv": 0.5321,
-      "iv_rank": 0.3772,
-      "n": 252
+      "typical_iv": 0.4854,
+      "iv_rank": 0.5055,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.4905,
+      "iv_minus_rv": -0.0051,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.275,
+          "recovery_days": 77,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.4919,
+          "recovery_days": 252,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.4919,
+          "recovery_days": 252,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.087,
+          "date": "2026-02-27",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1561,
+          "date": "2025-04-03",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1561,
+          "date": "2025-04-03",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.1217,
+      "option_volume": 180.5,
+      "option_volume_days": 2,
+      "market_cap": {
+        "usd": 44177184911,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "UBER",
-      "date": "2026-06-22",
-      "iv": 0.3247,
-      "iv_rank": 0.2411,
-      "n": 252
+      "typical_iv": 0.3564,
+      "iv_rank": 0.2763,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.3232,
+      "iv_minus_rv": 0.0332,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.3146,
+          "recovery_days": null,
+          "underwater_pct": -0.2782,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.3146,
+          "recovery_days": null,
+          "underwater_pct": -0.2782,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.6043,
+          "recovery_days": 501,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0689,
+          "date": "2025-11-20",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.096,
+          "date": "2024-12-05",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1158,
+          "date": "2022-05-09",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.1053,
+      "option_volume": 271.9,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 155112643725,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "USB",
-      "date": "2026-06-22",
-      "iv": 0.3334,
-      "iv_rank": 0.4567,
-      "n": 252
+      "typical_iv": 0.2548,
+      "iv_rank": 0.5424,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.2039,
+      "iv_minus_rv": 0.0509,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1621,
+          "recovery_days": 90,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.3217,
+          "recovery_days": 251,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.5466,
+          "recovery_days": null,
+          "underwater_pct": -0.0323,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0486,
+          "date": "2026-02-23",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0981,
+          "date": "2025-04-03",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1004,
+          "date": "2023-03-13",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.2857,
+      "option_volume": 21.3,
+      "option_volume_days": 6,
+      "market_cap": {
+        "usd": 91414930000,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "USO",
-      "date": "2026-06-22",
-      "iv": 0.4624,
-      "iv_rank": 0.2289,
-      "n": 252
+      "typical_iv": 0.3201,
+      "iv_rank": 0.1972,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.2911,
+      "iv_minus_rv": 0.029,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.3051,
+          "recovery_days": null,
+          "underwater_pct": -0.2854,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.3051,
+          "recovery_days": null,
+          "underwater_pct": -0.2854,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.3623,
+          "recovery_days": 1084,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0978,
+          "date": "2026-04-08",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0978,
+          "date": "2026-04-08",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1166,
+          "date": "2022-03-09",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.0314,
+      "option_volume": 3864.3,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": null,
+        "band": "ETF",
+        "source": "etf"
+      }
+    },
+    {
+      "ticker": "UVXY",
+      "typical_iv": 1.0084,
+      "iv_rank": 0.1527,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.7809,
+      "iv_minus_rv": 0.2275,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.7274,
+          "recovery_days": null,
+          "underwater_pct": -0.7121,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.9491,
+          "recovery_days": null,
+          "underwater_pct": -0.9463,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.9971,
+          "recovery_days": null,
+          "underwater_pct": -0.9969,
+          "coverage_days": 1255
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.1496,
+          "date": "2026-03-09",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.3162,
+          "date": "2025-04-09",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.3162,
+          "date": "2025-04-09",
+          "coverage_days": 1255
+        }
+      },
+      "spread_pct": 0.2676,
+      "option_volume": 25.0,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": null,
+        "band": null,
+        "source": "finnhub-none"
+      }
+    },
+    {
+      "ticker": "V",
+      "typical_iv": 0.2159,
+      "iv_rank": 0.3065,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.1959,
+      "iv_minus_rv": 0.02,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1765,
+          "recovery_days": null,
+          "underwater_pct": -0.0631,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.2084,
+          "recovery_days": null,
+          "underwater_pct": -0.0993,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.292,
+          "recovery_days": 417,
+          "underwater_pct": null,
+          "coverage_days": 1255
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.045,
+          "date": "2026-02-23",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0774,
+          "date": "2025-04-04",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0774,
+          "date": "2025-04-04",
+          "coverage_days": 1255
+        }
+      },
+      "spread_pct": 0.2251,
+      "option_volume": 28.3,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 627639710000,
+        "band": "Mega",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "VALE",
-      "date": "2026-06-23",
-      "iv": 0.3327,
-      "iv_rank": 0.4458,
-      "n": 252
+      "typical_iv": 0.3213,
+      "iv_rank": 0.3763,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.3121,
+      "iv_minus_rv": 0.0092,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1985,
+          "recovery_days": 25,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.4841,
+          "recovery_days": 290,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.6399,
+          "recovery_days": null,
+          "underwater_pct": -0.3409,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0627,
+          "date": "2026-04-29",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0668,
+          "date": "2025-04-04",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0974,
+          "date": "2021-09-23",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.0465,
+      "option_volume": 883.6,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 361525170000,
+        "band": "Mega",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "VZ",
-      "date": "2026-06-22",
-      "iv": 0.273,
-      "iv_rank": 0.7071,
-      "n": 252
+      "typical_iv": 0.2195,
+      "iv_rank": 0.7658,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.1872,
+      "iv_minus_rv": 0.0323,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1478,
+          "recovery_days": 103,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.1817,
+          "recovery_days": 47,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.4576,
+          "recovery_days": null,
+          "underwater_pct": -0.1853,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0511,
+          "date": "2025-10-06",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.075,
+          "date": "2023-07-17",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.075,
+          "date": "2023-07-17",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.2353,
+      "option_volume": 126.9,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 195123870000,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "WBD",
-      "date": "2026-06-22",
-      "iv": 0.4049,
-      "iv_rank": 0.4747,
-      "n": 252
+      "typical_iv": 0.3564,
+      "iv_rank": 0.4517,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.3067,
+      "iv_minus_rv": 0.0497,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.2131,
+          "recovery_days": 31,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.5363,
+          "recovery_days": 395,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.7419,
+          "recovery_days": 480,
+          "underwater_pct": null,
+          "coverage_days": 1060
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0801,
+          "date": "2025-08-08",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.1904,
+          "date": "2023-11-08",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1904,
+          "date": "2023-11-08",
+          "coverage_days": 1060
+        }
+      },
+      "spread_pct": 0.5686,
+      "option_volume": 47.8,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 66689840000,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "WFC",
-      "date": "2026-06-22",
-      "iv": 0.2936,
-      "iv_rank": 0.3687,
-      "n": 252
+      "typical_iv": 0.2795,
+      "iv_rank": 0.4701,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.2559,
+      "iv_minus_rv": 0.0236,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.2383,
+          "recovery_days": null,
+          "underwater_pct": -0.1209,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.251,
+          "recovery_days": 88,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.3866,
+          "recovery_days": 392,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.057,
+          "date": "2026-04-14",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0912,
+          "date": "2025-04-03",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0912,
+          "date": "2025-04-03",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.0513,
+      "option_volume": 297.8,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 260269120000,
+        "band": "Mega",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "WMB",
-      "date": "2026-06-22",
-      "iv": 0.2523,
-      "iv_rank": 0.4426,
-      "n": 252
+      "typical_iv": 0.2586,
+      "iv_rank": 0.4531,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.216,
+      "iv_minus_rv": 0.0426,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1236,
+          "recovery_days": 80,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.1294,
+          "recovery_days": 34,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.2517,
+          "recovery_days": 369,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0651,
+          "date": "2025-07-01",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0843,
+          "date": "2025-01-27",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0843,
+          "date": "2025-01-27",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.4185,
+      "option_volume": null,
+      "option_volume_days": 0,
+      "market_cap": {
+        "usd": 87419920000,
+        "band": "Large",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "WMT",
-      "date": "2026-06-22",
-      "iv": 0.2436,
-      "iv_rank": 0.4096,
-      "n": 252
-    },
-    {
-      "ticker": "X",
-      "date": "2025-06-17",
-      "iv": 0.024,
-      "iv_rank": 0.0,
-      "n": 252
+      "typical_iv": 0.2452,
+      "iv_rank": 0.3003,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.2265,
+      "iv_minus_rv": 0.0187,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1575,
+          "recovery_days": null,
+          "underwater_pct": -0.1373,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.2214,
+          "recovery_days": 189,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.2601,
+          "recovery_days": 406,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0727,
+          "date": "2026-05-21",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0809,
+          "date": "2023-11-16",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.1138,
+          "date": "2022-05-17",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.0533,
+      "option_volume": 1346.5,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 963166320000,
+        "band": "Mega",
+        "source": "finnhub"
+      }
     },
     {
       "ticker": "XLB",
-      "date": "2026-06-22",
-      "iv": 0.2169,
-      "iv_rank": 0.34,
-      "n": 252
+      "typical_iv": 0.1792,
+      "iv_rank": 0.2381,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.1604,
+      "iv_minus_rv": 0.0188,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1238,
+          "recovery_days": null,
+          "underwater_pct": -0.0332,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.2392,
+          "recovery_days": 282,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.2571,
+          "recovery_days": 534,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0268,
+          "date": "2026-02-05",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0626,
+          "date": "2025-04-04",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0626,
+          "date": "2025-04-04",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.2837,
+      "option_volume": 38.0,
+      "option_volume_days": 1,
+      "market_cap": {
+        "usd": null,
+        "band": "ETF",
+        "source": "etf"
+      }
     },
     {
       "ticker": "XLC",
-      "date": "2026-06-22",
-      "iv": 0.1951,
-      "iv_rank": 0.1803,
-      "n": 252
+      "typical_iv": 0.1694,
+      "iv_rank": 0.1771,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.1274,
+      "iv_minus_rv": 0.042,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1208,
+          "recovery_days": null,
+          "underwater_pct": -0.1208,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.1821,
+          "recovery_days": 79,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.4723,
+          "recovery_days": 602,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0278,
+          "date": "2026-06-17",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0573,
+          "date": "2025-04-04",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0669,
+          "date": "2022-02-03",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.378,
+      "option_volume": 64.4,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": null,
+        "band": "ETF",
+        "source": "etf"
+      }
     },
     {
       "ticker": "XLE",
-      "date": "2026-06-22",
-      "iv": 0.2251,
-      "iv_rank": 0.3727,
-      "n": 252
+      "typical_iv": 0.2154,
+      "iv_rank": 0.3704,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.1918,
+      "iv_minus_rv": 0.0236,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1437,
+          "recovery_days": null,
+          "underwater_pct": -0.1354,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.2206,
+          "recovery_days": 290,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.2687,
+          "recovery_days": 116,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0412,
+          "date": "2026-05-06",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.092,
+          "date": "2025-04-04",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.092,
+          "date": "2025-04-04",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.0732,
+      "option_volume": 3744.4,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": null,
+        "band": "ETF",
+        "source": "etf"
+      }
     },
     {
       "ticker": "XLF",
-      "date": "2026-06-22",
-      "iv": 0.1602,
-      "iv_rank": 0.4246,
-      "n": 252
+      "typical_iv": 0.1685,
+      "iv_rank": 0.4465,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.1344,
+      "iv_minus_rv": 0.0341,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1523,
+          "recovery_days": null,
+          "underwater_pct": -0.0523,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.1585,
+          "recovery_days": 83,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.2687,
+          "recovery_days": 525,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0335,
+          "date": "2026-02-23",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0732,
+          "date": "2025-04-04",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0732,
+          "date": "2025-04-04",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.0488,
+      "option_volume": 1602.5,
+      "option_volume_days": 4,
+      "market_cap": {
+        "usd": null,
+        "band": "ETF",
+        "source": "etf"
+      }
     },
     {
       "ticker": "XLI",
-      "date": "2026-06-22",
-      "iv": 0.1917,
-      "iv_rank": 0.4682,
-      "n": 252
+      "typical_iv": 0.1568,
+      "iv_rank": 0.4824,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.1449,
+      "iv_minus_rv": 0.0119,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1246,
+          "recovery_days": 78,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.1915,
+          "recovery_days": 41,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.2267,
+          "recovery_days": 273,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0338,
+          "date": "2026-06-10",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0629,
+          "date": "2025-04-04",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0629,
+          "date": "2025-04-04",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.3425,
+      "option_volume": 206.2,
+      "option_volume_days": 9,
+      "market_cap": {
+        "usd": null,
+        "band": "ETF",
+        "source": "etf"
+      }
     },
     {
       "ticker": "XLK",
-      "date": "2026-06-22",
-      "iv": 0.3389,
-      "iv_rank": 0.6203,
-      "n": 252
+      "typical_iv": 0.225,
+      "iv_rank": 0.6702,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.2077,
+      "iv_minus_rv": 0.0173,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1616,
+          "recovery_days": 18,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.2578,
+          "recovery_days": 65,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.3402,
+          "recovery_days": 278,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0666,
+          "date": "2026-06-05",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0682,
+          "date": "2025-04-03",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0682,
+          "date": "2025-04-03",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.2523,
+      "option_volume": 378.5,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": null,
+        "band": "ETF",
+        "source": "etf"
+      }
     },
     {
       "ticker": "XLP",
-      "date": "2026-06-22",
-      "iv": 0.1183,
-      "iv_rank": 0.2654,
-      "n": 252
+      "typical_iv": 0.139,
+      "iv_rank": 0.3423,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.124,
+      "iv_minus_rv": 0.015,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.0994,
+          "recovery_days": null,
+          "underwater_pct": -0.0674,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.1298,
+          "recovery_days": 153,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.1781,
+          "recovery_days": 312,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0243,
+          "date": "2026-03-18",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0434,
+          "date": "2025-04-04",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0643,
+          "date": "2022-05-18",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.1475,
+      "option_volume": 298.5,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": null,
+        "band": "ETF",
+        "source": "etf"
+      }
     },
     {
       "ticker": "XLRE",
-      "date": "2026-06-22",
-      "iv": 0.1219,
-      "iv_rank": 0.1505,
-      "n": 252
+      "typical_iv": 0.1555,
+      "iv_rank": 0.2176,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.135,
+      "iv_minus_rv": 0.0205,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.0894,
+          "recovery_days": 21,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.1825,
+          "recovery_days": 430,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.3787,
+          "recovery_days": null,
+          "underwater_pct": -0.1394,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0317,
+          "date": "2026-03-20",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0456,
+          "date": "2025-04-04",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0482,
+          "date": "2022-04-29",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 1.12,
+      "option_volume": 30.9,
+      "option_volume_days": 8,
+      "market_cap": {
+        "usd": null,
+        "band": "ETF",
+        "source": "etf"
+      }
     },
     {
       "ticker": "XLU",
-      "date": "2026-06-22",
-      "iv": 0.1252,
-      "iv_rank": 0.3495,
-      "n": 252
+      "typical_iv": 0.1582,
+      "iv_rank": 0.4413,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.1348,
+      "iv_minus_rv": 0.0234,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.0986,
+          "recovery_days": 37,
+          "underwater_pct": null,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.1791,
+          "recovery_days": 217,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.2806,
+          "recovery_days": 347,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0406,
+          "date": "2026-03-20",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0555,
+          "date": "2025-04-04",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0555,
+          "date": "2025-04-04",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.2667,
+      "option_volume": 115.0,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": null,
+        "band": "ETF",
+        "source": "etf"
+      }
     },
     {
       "ticker": "XLV",
-      "date": "2026-06-22",
-      "iv": 0.1299,
-      "iv_rank": 0.4754,
-      "n": 252
+      "typical_iv": 0.1508,
+      "iv_rank": 0.5206,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.1452,
+      "iv_minus_rv": 0.0056,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1084,
+          "recovery_days": null,
+          "underwater_pct": -0.0285,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.1811,
+          "recovery_days": 195,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.1811,
+          "recovery_days": 195,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.028,
+          "date": "2025-07-31",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0548,
+          "date": "2025-04-04",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0548,
+          "date": "2025-04-04",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.3021,
+      "option_volume": null,
+      "option_volume_days": 0,
+      "market_cap": {
+        "usd": null,
+        "band": "ETF",
+        "source": "etf"
+      }
     },
     {
       "ticker": "XLY",
-      "date": "2026-06-22",
-      "iv": 0.2043,
-      "iv_rank": 0.4356,
-      "n": 252
+      "typical_iv": 0.1987,
+      "iv_rank": 0.0,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.1694,
+      "iv_minus_rv": 0.0293,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.1515,
+          "recovery_days": null,
+          "underwater_pct": -0.0897,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.2635,
+          "recovery_days": 160,
+          "underwater_pct": null,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.4028,
+          "recovery_days": 680,
+          "underwater_pct": null,
+          "coverage_days": 1254
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0289,
+          "date": "2026-03-27",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.0604,
+          "date": "2025-04-03",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0654,
+          "date": "2022-05-18",
+          "coverage_days": 1254
+        }
+      },
+      "spread_pct": 0.5362,
+      "option_volume": 189.2,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": null,
+        "band": "ETF",
+        "source": "etf"
+      }
+    },
+    {
+      "ticker": "XOM",
+      "typical_iv": 0.2544,
+      "iv_rank": 0.4974,
+      "iv_coverage_n": 252,
+      "realized_vol": 0.2272,
+      "iv_minus_rv": 0.0272,
+      "drawdown": {
+        "1y": {
+          "max_dd": -0.2037,
+          "recovery_days": null,
+          "underwater_pct": -0.2037,
+          "coverage_days": 251
+        },
+        "3y": {
+          "max_dd": -0.2037,
+          "recovery_days": null,
+          "underwater_pct": -0.2037,
+          "coverage_days": 753
+        },
+        "5y": {
+          "max_dd": -0.2051,
+          "recovery_days": 99,
+          "underwater_pct": null,
+          "coverage_days": 1255
+        }
+      },
+      "largest_down_day": {
+        "1y": {
+          "pct": -0.0523,
+          "date": "2026-04-01",
+          "coverage_days": 251
+        },
+        "3y": {
+          "pct": -0.072,
+          "date": "2025-04-04",
+          "coverage_days": 753
+        },
+        "5y": {
+          "pct": -0.0789,
+          "date": "2022-05-09",
+          "coverage_days": 1255
+        }
+      },
+      "spread_pct": 0.0758,
+      "option_volume": 738.5,
+      "option_volume_days": 10,
+      "market_cap": {
+        "usd": 588002200000,
+        "band": "Mega",
+        "source": "finnhub"
+      }
     }
   ]
 }
