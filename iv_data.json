@@ -11,8 +11,10 @@
     "spread_pct": "Current ATM-put bid/ask spread from the INDICATIVE feed \u2014 modeled and time-sensitive; NOT a reliable point-in-time liquidity read. Lead with option_volume; treat a wide spread as indicative only.",
     "option_volume": "Trailing ~10-session average daily volume of the shared ~35-DTE ATM-put contract (the genuine liquidity-depth signal). option_volume_days = sessions the average covers; a low count (e.g. 1) is a single noisy day.",
     "market_cap": "Finnhub company market cap (USD) + band (Mega>=$200B / Large / Mid / Small / Micro). ETFs: N/A (funds have no company market cap).",
+    "name": "Company name (Finnhub) or fund descriptive name (e.g. SPY -> 'S&P 500') \u2014 for name-search alongside the ticker. Not a quote.",
     "fields": [
       "ticker",
+      "name",
       "typical_iv",
       "iv_rank",
       "iv_coverage_n",
@@ -27,10 +29,11 @@
     ],
     "disclaimer": "Educational/informational only. NOT investment advice. May contain gaps or errors."
   },
-  "as_of": "2026-06-27",
+  "as_of": "2026-06-28",
   "data": [
     {
       "ticker": "AA",
+      "name": "Alcoa Corp",
       "typical_iv": 0.5329,
       "iv_rank": 0.7048,
       "iv_coverage_n": 252,
@@ -84,6 +87,7 @@
     },
     {
       "ticker": "AAL",
+      "name": "American Airlines Group Inc",
       "typical_iv": 0.4779,
       "iv_rank": 0.5466,
       "iv_coverage_n": 252,
@@ -137,6 +141,7 @@
     },
     {
       "ticker": "AAPL",
+      "name": "Apple Inc",
       "typical_iv": 0.2353,
       "iv_rank": 0.5543,
       "iv_coverage_n": 252,
@@ -190,6 +195,7 @@
     },
     {
       "ticker": "ABBV",
+      "name": "AbbVie Inc",
       "typical_iv": 0.2627,
       "iv_rank": 0.5944,
       "iv_coverage_n": 252,
@@ -243,6 +249,7 @@
     },
     {
       "ticker": "AMC",
+      "name": "AMC Entertainment Holdings Inc",
       "typical_iv": 0.7898,
       "iv_rank": 0.708,
       "iv_coverage_n": 252,
@@ -296,6 +303,7 @@
     },
     {
       "ticker": "AMD",
+      "name": "Advanced Micro Devices Inc",
       "typical_iv": 0.5323,
       "iv_rank": 0.7531,
       "iv_coverage_n": 252,
@@ -349,6 +357,7 @@
     },
     {
       "ticker": "AMZN",
+      "name": "Amazon.com Inc",
       "typical_iv": 0.3088,
       "iv_rank": 0.4486,
       "iv_coverage_n": 252,
@@ -402,6 +411,7 @@
     },
     {
       "ticker": "ARKK",
+      "name": "ARK Innovation",
       "typical_iv": 0.4105,
       "iv_rank": 0.3776,
       "iv_coverage_n": 252,
@@ -455,6 +465,7 @@
     },
     {
       "ticker": "AVGO",
+      "name": "Broadcom Inc",
       "typical_iv": 0.4561,
       "iv_rank": 0.4095,
       "iv_coverage_n": 252,
@@ -508,6 +519,7 @@
     },
     {
       "ticker": "BA",
+      "name": "Boeing Co",
       "typical_iv": 0.308,
       "iv_rank": 0.4679,
       "iv_coverage_n": 252,
@@ -561,6 +573,7 @@
     },
     {
       "ticker": "BAC",
+      "name": "Bank of America Corp",
       "typical_iv": 0.2512,
       "iv_rank": 0.438,
       "iv_coverage_n": 252,
@@ -614,6 +627,7 @@
     },
     {
       "ticker": "BMY",
+      "name": "Bristol-Myers Squibb Co",
       "typical_iv": 0.2967,
       "iv_rank": 0.3691,
       "iv_coverage_n": 252,
@@ -667,6 +681,7 @@
     },
     {
       "ticker": "C",
+      "name": "Citigroup Inc",
       "typical_iv": 0.3023,
       "iv_rank": 0.3456,
       "iv_coverage_n": 252,
@@ -720,6 +735,7 @@
     },
     {
       "ticker": "CAT",
+      "name": "Caterpillar Inc",
       "typical_iv": 0.3421,
       "iv_rank": 0.8553,
       "iv_coverage_n": 252,
@@ -773,6 +789,7 @@
     },
     {
       "ticker": "CCL",
+      "name": "Carnival Corp",
       "typical_iv": 0.4489,
       "iv_rank": 0.3995,
       "iv_coverage_n": 252,
@@ -826,6 +843,7 @@
     },
     {
       "ticker": "CLF",
+      "name": "Cleveland-Cliffs Inc",
       "typical_iv": 0.6401,
       "iv_rank": 0.4608,
       "iv_coverage_n": 252,
@@ -879,6 +897,7 @@
     },
     {
       "ticker": "CMCSA",
+      "name": "Comcast Corp",
       "typical_iv": 0.2986,
       "iv_rank": 0.6853,
       "iv_coverage_n": 252,
@@ -932,6 +951,7 @@
     },
     {
       "ticker": "COIN",
+      "name": "Coinbase Global Inc",
       "typical_iv": 0.6439,
       "iv_rank": 0.5472,
       "iv_coverage_n": 252,
@@ -985,6 +1005,7 @@
     },
     {
       "ticker": "COP",
+      "name": "ConocoPhillips",
       "typical_iv": 0.3091,
       "iv_rank": 0.3711,
       "iv_coverage_n": 252,
@@ -1038,6 +1059,7 @@
     },
     {
       "ticker": "COST",
+      "name": "Costco Wholesale Corp",
       "typical_iv": 0.207,
       "iv_rank": 0.1622,
       "iv_coverage_n": 252,
@@ -1091,6 +1113,7 @@
     },
     {
       "ticker": "CRM",
+      "name": "Salesforce Inc",
       "typical_iv": 0.3984,
       "iv_rank": 0.4701,
       "iv_coverage_n": 252,
@@ -1144,6 +1167,7 @@
     },
     {
       "ticker": "CSCO",
+      "name": "Cisco Systems Inc",
       "typical_iv": 0.2759,
       "iv_rank": 0.6906,
       "iv_coverage_n": 252,
@@ -1197,6 +1221,7 @@
     },
     {
       "ticker": "CVS",
+      "name": "CVS Health Corp",
       "typical_iv": 0.3036,
       "iv_rank": 0.3098,
       "iv_coverage_n": 252,
@@ -1250,6 +1275,7 @@
     },
     {
       "ticker": "CVX",
+      "name": "Chevron Corp",
       "typical_iv": 0.2504,
       "iv_rank": 0.5256,
       "iv_coverage_n": 252,
@@ -1303,6 +1329,7 @@
     },
     {
       "ticker": "DAL",
+      "name": "Delta Air Lines Inc",
       "typical_iv": 0.4261,
       "iv_rank": 0.5229,
       "iv_coverage_n": 252,
@@ -1356,6 +1383,7 @@
     },
     {
       "ticker": "DE",
+      "name": "Deere & Co",
       "typical_iv": 0.2798,
       "iv_rank": 0.8199,
       "iv_coverage_n": 252,
@@ -1409,6 +1437,7 @@
     },
     {
       "ticker": "DELL",
+      "name": "Dell Technologies Inc",
       "typical_iv": 0.476,
       "iv_rank": 0.9116,
       "iv_coverage_n": 252,
@@ -1462,6 +1491,7 @@
     },
     {
       "ticker": "DIA",
+      "name": "Dow Jones Industrial Average",
       "typical_iv": 0.1292,
       "iv_rank": 0.2503,
       "iv_coverage_n": 252,
@@ -1515,6 +1545,7 @@
     },
     {
       "ticker": "DIS",
+      "name": "Walt Disney Co",
       "typical_iv": 0.2674,
       "iv_rank": 0.3725,
       "iv_coverage_n": 252,
@@ -1568,6 +1599,7 @@
     },
     {
       "ticker": "DVN",
+      "name": "Devon Energy Corp",
       "typical_iv": 0.3668,
       "iv_rank": 0.1201,
       "iv_coverage_n": 252,
@@ -1621,6 +1653,7 @@
     },
     {
       "ticker": "EEM",
+      "name": "Emerging Markets",
       "typical_iv": 0.1898,
       "iv_rank": 0.7252,
       "iv_coverage_n": 252,
@@ -1674,6 +1707,7 @@
     },
     {
       "ticker": "EFA",
+      "name": "Developed Markets ex-US (EAFE)",
       "typical_iv": 0.1481,
       "iv_rank": 0.4008,
       "iv_coverage_n": 252,
@@ -1727,6 +1761,7 @@
     },
     {
       "ticker": "F",
+      "name": "Ford Motor Co",
       "typical_iv": 0.3383,
       "iv_rank": 0.6091,
       "iv_coverage_n": 252,
@@ -1780,6 +1815,7 @@
     },
     {
       "ticker": "FCX",
+      "name": "Freeport-McMoRan Inc",
       "typical_iv": 0.4308,
       "iv_rank": 0.8939,
       "iv_coverage_n": 252,
@@ -1833,6 +1869,7 @@
     },
     {
       "ticker": "FXI",
+      "name": "China Large-Cap",
       "typical_iv": 0.2283,
       "iv_rank": 0.5479,
       "iv_coverage_n": 252,
@@ -1886,6 +1923,7 @@
     },
     {
       "ticker": "GDX",
+      "name": "Gold Miners",
       "typical_iv": 0.4282,
       "iv_rank": 0.4548,
       "iv_coverage_n": 252,
@@ -1939,6 +1977,7 @@
     },
     {
       "ticker": "GDXJ",
+      "name": "Junior Gold Miners",
       "typical_iv": 0.4739,
       "iv_rank": 0.3626,
       "iv_coverage_n": 252,
@@ -1992,6 +2031,7 @@
     },
     {
       "ticker": "GE",
+      "name": "General Electric Co",
       "typical_iv": 0.3112,
       "iv_rank": 0.8052,
       "iv_coverage_n": 252,
@@ -2045,6 +2085,7 @@
     },
     {
       "ticker": "GILD",
+      "name": "Gilead Sciences, Inc",
       "typical_iv": 0.288,
       "iv_rank": 0.1566,
       "iv_coverage_n": 252,
@@ -2098,6 +2139,7 @@
     },
     {
       "ticker": "GLD",
+      "name": "Gold",
       "typical_iv": 0.2078,
       "iv_rank": 0.3785,
       "iv_coverage_n": 252,
@@ -2151,6 +2193,7 @@
     },
     {
       "ticker": "GM",
+      "name": "General Motors Co",
       "typical_iv": 0.3235,
       "iv_rank": 0.5884,
       "iv_coverage_n": 252,
@@ -2204,6 +2247,7 @@
     },
     {
       "ticker": "GME",
+      "name": "GameStop Corp",
       "typical_iv": 0.4973,
       "iv_rank": 0.0506,
       "iv_coverage_n": 252,
@@ -2257,6 +2301,7 @@
     },
     {
       "ticker": "GOOGL",
+      "name": "Alphabet Inc",
       "typical_iv": 0.3131,
       "iv_rank": 0.2798,
       "iv_coverage_n": 252,
@@ -2310,6 +2355,7 @@
     },
     {
       "ticker": "GS",
+      "name": "Goldman Sachs Group Inc",
       "typical_iv": 0.2853,
       "iv_rank": 0.5412,
       "iv_coverage_n": 252,
@@ -2363,6 +2409,7 @@
     },
     {
       "ticker": "HAL",
+      "name": "Halliburton Co",
       "typical_iv": 0.3735,
       "iv_rank": 0.3585,
       "iv_coverage_n": 252,
@@ -2416,6 +2463,7 @@
     },
     {
       "ticker": "HON",
+      "name": "Honeywell International Inc",
       "typical_iv": 0.2295,
       "iv_rank": 0.7779,
       "iv_coverage_n": 252,
@@ -2469,6 +2517,7 @@
     },
     {
       "ticker": "HOOD",
+      "name": "Robinhood Markets Inc",
       "typical_iv": 0.6503,
       "iv_rank": 0.5758,
       "iv_coverage_n": 252,
@@ -2522,6 +2571,7 @@
     },
     {
       "ticker": "HPQ",
+      "name": "HP Inc",
       "typical_iv": 0.4037,
       "iv_rank": 0.3667,
       "iv_coverage_n": 252,
@@ -2575,6 +2625,7 @@
     },
     {
       "ticker": "HYG",
+      "name": "High-Yield Corporate Bonds",
       "typical_iv": 0.0611,
       "iv_rank": 0.1429,
       "iv_coverage_n": 252,
@@ -2628,6 +2679,7 @@
     },
     {
       "ticker": "IBM",
+      "name": "International Business Machines Corp",
       "typical_iv": 0.3306,
       "iv_rank": 0.553,
       "iv_coverage_n": 252,
@@ -2681,6 +2733,7 @@
     },
     {
       "ticker": "INTC",
+      "name": "Intel Corp",
       "typical_iv": 0.58,
       "iv_rank": 0.9137,
       "iv_coverage_n": 252,
@@ -2734,6 +2787,7 @@
     },
     {
       "ticker": "IWM",
+      "name": "Russell 2000",
       "typical_iv": 0.2121,
       "iv_rank": 0.3288,
       "iv_coverage_n": 252,
@@ -2787,6 +2841,7 @@
     },
     {
       "ticker": "JNJ",
+      "name": "Johnson & Johnson",
       "typical_iv": 0.192,
       "iv_rank": 0.7485,
       "iv_coverage_n": 252,
@@ -2840,6 +2895,7 @@
     },
     {
       "ticker": "JPM",
+      "name": "JPMorgan Chase & Co",
       "typical_iv": 0.2415,
       "iv_rank": 0.4619,
       "iv_coverage_n": 252,
@@ -2893,6 +2949,7 @@
     },
     {
       "ticker": "KEY",
+      "name": "KeyCorp",
       "typical_iv": 0.2834,
       "iv_rank": 0.2966,
       "iv_coverage_n": 252,
@@ -2946,6 +3003,7 @@
     },
     {
       "ticker": "KMI",
+      "name": "Kinder Morgan Inc",
       "typical_iv": 0.2316,
       "iv_rank": 0.2998,
       "iv_coverage_n": 252,
@@ -2999,6 +3057,7 @@
     },
     {
       "ticker": "KO",
+      "name": "Coca-Cola Co",
       "typical_iv": 0.1806,
       "iv_rank": 0.5928,
       "iv_coverage_n": 252,
@@ -3052,6 +3111,7 @@
     },
     {
       "ticker": "KR",
+      "name": "Kroger Co",
       "typical_iv": 0.2674,
       "iv_rank": 0.3247,
       "iv_coverage_n": 252,
@@ -3105,6 +3165,7 @@
     },
     {
       "ticker": "KRE",
+      "name": "Regional Banks",
       "typical_iv": 0.261,
       "iv_rank": 0.3352,
       "iv_coverage_n": 252,
@@ -3158,6 +3219,7 @@
     },
     {
       "ticker": "LYFT",
+      "name": "Lyft Inc",
       "typical_iv": 0.5565,
       "iv_rank": 0.1569,
       "iv_coverage_n": 252,
@@ -3211,6 +3273,7 @@
     },
     {
       "ticker": "MA",
+      "name": "Mastercard Inc",
       "typical_iv": 0.2239,
       "iv_rank": 0.5181,
       "iv_coverage_n": 252,
@@ -3264,6 +3327,7 @@
     },
     {
       "ticker": "MARA",
+      "name": "MARA Holdings Inc",
       "typical_iv": 0.8509,
       "iv_rank": 0.4618,
       "iv_coverage_n": 252,
@@ -3317,6 +3381,7 @@
     },
     {
       "ticker": "MCD",
+      "name": "McDonald's Corp",
       "typical_iv": 0.1893,
       "iv_rank": 0.4141,
       "iv_coverage_n": 252,
@@ -3370,6 +3435,7 @@
     },
     {
       "ticker": "META",
+      "name": "Meta Platforms Inc",
       "typical_iv": 0.3211,
       "iv_rank": 0.4392,
       "iv_coverage_n": 252,
@@ -3423,6 +3489,7 @@
     },
     {
       "ticker": "MO",
+      "name": "Altria Group Inc",
       "typical_iv": 0.2191,
       "iv_rank": 0.3728,
       "iv_coverage_n": 252,
@@ -3476,6 +3543,7 @@
     },
     {
       "ticker": "MRK",
+      "name": "Merck & Co Inc",
       "typical_iv": 0.2918,
       "iv_rank": 0.5205,
       "iv_coverage_n": 252,
@@ -3529,6 +3597,7 @@
     },
     {
       "ticker": "MRNA",
+      "name": "Moderna Inc",
       "typical_iv": 0.7057,
       "iv_rank": 0.6384,
       "iv_coverage_n": 252,
@@ -3582,6 +3651,7 @@
     },
     {
       "ticker": "MS",
+      "name": "Morgan Stanley",
       "typical_iv": 0.2797,
       "iv_rank": 0.5677,
       "iv_coverage_n": 252,
@@ -3635,6 +3705,7 @@
     },
     {
       "ticker": "MSFT",
+      "name": "Microsoft Corp",
       "typical_iv": 0.2574,
       "iv_rank": 0.6831,
       "iv_coverage_n": 252,
@@ -3688,6 +3759,7 @@
     },
     {
       "ticker": "MSTR",
+      "name": "Strategy Inc",
       "typical_iv": 0.6701,
       "iv_rank": 0.7763,
       "iv_coverage_n": 252,
@@ -3741,6 +3813,7 @@
     },
     {
       "ticker": "MU",
+      "name": "Micron Technology Inc",
       "typical_iv": 0.6546,
       "iv_rank": 0.728,
       "iv_coverage_n": 252,
@@ -3794,6 +3867,7 @@
     },
     {
       "ticker": "NCLH",
+      "name": "Norwegian Cruise Line Holdings Ltd",
       "typical_iv": 0.5087,
       "iv_rank": 0.5764,
       "iv_coverage_n": 252,
@@ -3847,6 +3921,7 @@
     },
     {
       "ticker": "NEM",
+      "name": "Newmont Corporation",
       "typical_iv": 0.4313,
       "iv_rank": 0.3138,
       "iv_coverage_n": 252,
@@ -3900,6 +3975,7 @@
     },
     {
       "ticker": "NFLX",
+      "name": "Netflix Inc",
       "typical_iv": 0.3428,
       "iv_rank": 0.9192,
       "iv_coverage_n": 252,
@@ -3953,6 +4029,7 @@
     },
     {
       "ticker": "NIO",
+      "name": "NIO Inc",
       "typical_iv": 0.6368,
       "iv_rank": 0.1502,
       "iv_coverage_n": 252,
@@ -4006,6 +4083,7 @@
     },
     {
       "ticker": "NVDA",
+      "name": "NVIDIA Corp",
       "typical_iv": 0.3783,
       "iv_rank": 0.2842,
       "iv_coverage_n": 252,
@@ -4059,6 +4137,7 @@
     },
     {
       "ticker": "NVDL",
+      "name": "NVIDIA (2x)",
       "typical_iv": 0.769,
       "iv_rank": 0.3367,
       "iv_coverage_n": 252,
@@ -4106,12 +4185,13 @@
       "option_volume_days": 1,
       "market_cap": {
         "usd": null,
-        "band": null,
-        "source": "finnhub-none"
+        "band": "ETF",
+        "source": "etf"
       }
     },
     {
       "ticker": "OKE",
+      "name": "ONEOK Inc",
       "typical_iv": 0.2916,
       "iv_rank": 0.2155,
       "iv_coverage_n": 252,
@@ -4165,6 +4245,7 @@
     },
     {
       "ticker": "ORCL",
+      "name": "Oracle Corp",
       "typical_iv": 0.5187,
       "iv_rank": 0.4343,
       "iv_coverage_n": 252,
@@ -4218,6 +4299,7 @@
     },
     {
       "ticker": "OXY",
+      "name": "Occidental Petroleum Corp",
       "typical_iv": 0.3434,
       "iv_rank": 0.1606,
       "iv_coverage_n": 252,
@@ -4271,6 +4353,7 @@
     },
     {
       "ticker": "PEP",
+      "name": "PepsiCo Inc",
       "typical_iv": 0.2362,
       "iv_rank": 0.7708,
       "iv_coverage_n": 252,
@@ -4324,6 +4407,7 @@
     },
     {
       "ticker": "PFE",
+      "name": "Pfizer Inc",
       "typical_iv": 0.2366,
       "iv_rank": 0.0858,
       "iv_coverage_n": 252,
@@ -4377,6 +4461,7 @@
     },
     {
       "ticker": "PG",
+      "name": "Procter & Gamble Co",
       "typical_iv": 0.1933,
       "iv_rank": 0.4534,
       "iv_coverage_n": 252,
@@ -4430,6 +4515,7 @@
     },
     {
       "ticker": "PINS",
+      "name": "Pinterest Inc",
       "typical_iv": 0.5146,
       "iv_rank": 0.4426,
       "iv_coverage_n": 252,
@@ -4483,6 +4569,7 @@
     },
     {
       "ticker": "PLTR",
+      "name": "Palantir Technologies Inc",
       "typical_iv": 0.5251,
       "iv_rank": 0.4235,
       "iv_coverage_n": 252,
@@ -4536,6 +4623,7 @@
     },
     {
       "ticker": "PLUG",
+      "name": "Plug Power Inc",
       "typical_iv": 1.0262,
       "iv_rank": 0.1653,
       "iv_coverage_n": 252,
@@ -4589,6 +4677,7 @@
     },
     {
       "ticker": "PNC",
+      "name": "PNC Financial Services Group Inc",
       "typical_iv": 0.2501,
       "iv_rank": 0.4381,
       "iv_coverage_n": 252,
@@ -4642,6 +4731,7 @@
     },
     {
       "ticker": "PSKY",
+      "name": "Paramount Skydance Corp",
       "typical_iv": 0.5504,
       "iv_rank": 0.0247,
       "iv_coverage_n": 220,
@@ -4695,6 +4785,7 @@
     },
     {
       "ticker": "PYPL",
+      "name": "PayPal Holdings Inc",
       "typical_iv": 0.3672,
       "iv_rank": 0.1092,
       "iv_coverage_n": 252,
@@ -4748,6 +4839,7 @@
     },
     {
       "ticker": "QCOM",
+      "name": "Qualcomm Inc",
       "typical_iv": 0.3536,
       "iv_rank": 0.6716,
       "iv_coverage_n": 252,
@@ -4801,6 +4893,7 @@
     },
     {
       "ticker": "QQQ",
+      "name": "Nasdaq-100",
       "typical_iv": 0.1837,
       "iv_rank": 0.7974,
       "iv_coverage_n": 252,
@@ -4854,6 +4947,7 @@
     },
     {
       "ticker": "RIOT",
+      "name": "Riot Platforms Inc",
       "typical_iv": 0.8327,
       "iv_rank": 0.7041,
       "iv_coverage_n": 252,
@@ -4907,6 +5001,7 @@
     },
     {
       "ticker": "RIVN",
+      "name": "Rivian Automotive Inc",
       "typical_iv": 0.6415,
       "iv_rank": 0.6686,
       "iv_coverage_n": 252,
@@ -4960,6 +5055,7 @@
     },
     {
       "ticker": "SCHW",
+      "name": "Charles Schwab Corp",
       "typical_iv": 0.2674,
       "iv_rank": 0.3961,
       "iv_coverage_n": 252,
@@ -5013,6 +5109,7 @@
     },
     {
       "ticker": "SHOP",
+      "name": "Shopify Inc",
       "typical_iv": 0.5577,
       "iv_rank": 0.4236,
       "iv_coverage_n": 252,
@@ -5066,6 +5163,7 @@
     },
     {
       "ticker": "SLB",
+      "name": "SLB NV",
       "typical_iv": 0.3469,
       "iv_rank": 0.3937,
       "iv_coverage_n": 252,
@@ -5119,6 +5217,7 @@
     },
     {
       "ticker": "SLV",
+      "name": "Silver",
       "typical_iv": 0.4442,
       "iv_rank": 0.27,
       "iv_coverage_n": 252,
@@ -5172,6 +5271,7 @@
     },
     {
       "ticker": "SMH",
+      "name": "Semiconductors",
       "typical_iv": 0.3433,
       "iv_rank": 0.8732,
       "iv_coverage_n": 252,
@@ -5225,6 +5325,7 @@
     },
     {
       "ticker": "SNAP",
+      "name": "Snap Inc",
       "typical_iv": 0.6088,
       "iv_rank": 0.2754,
       "iv_coverage_n": 252,
@@ -5278,6 +5379,7 @@
     },
     {
       "ticker": "SOFI",
+      "name": "SoFi Technologies Inc",
       "typical_iv": 0.6062,
       "iv_rank": 0.2902,
       "iv_coverage_n": 252,
@@ -5331,6 +5433,7 @@
     },
     {
       "ticker": "SOXL",
+      "name": "Semiconductors (3x)",
       "typical_iv": 1.0293,
       "iv_rank": 0.9949,
       "iv_coverage_n": 252,
@@ -5378,12 +5481,13 @@
       "option_volume_days": 10,
       "market_cap": {
         "usd": null,
-        "band": null,
-        "source": "finnhub-none"
+        "band": "ETF",
+        "source": "etf"
       }
     },
     {
       "ticker": "SPY",
+      "name": "S&P 500",
       "typical_iv": 0.1316,
       "iv_rank": 0.2631,
       "iv_coverage_n": 252,
@@ -5437,6 +5541,7 @@
     },
     {
       "ticker": "SQQQ",
+      "name": "Nasdaq-100 (3x Inverse)",
       "typical_iv": 0.5989,
       "iv_rank": 0.7074,
       "iv_coverage_n": 252,
@@ -5484,12 +5589,13 @@
       "option_volume_days": 10,
       "market_cap": {
         "usd": null,
-        "band": null,
-        "source": "finnhub-none"
+        "band": "ETF",
+        "source": "etf"
       }
     },
     {
       "ticker": "T",
+      "name": "AT&T Inc",
       "typical_iv": 0.2392,
       "iv_rank": 0.4929,
       "iv_coverage_n": 252,
@@ -5543,6 +5649,7 @@
     },
     {
       "ticker": "TGT",
+      "name": "Target Corp",
       "typical_iv": 0.3387,
       "iv_rank": 0.0326,
       "iv_coverage_n": 252,
@@ -5596,6 +5703,7 @@
     },
     {
       "ticker": "TLT",
+      "name": "20+ Year Treasuries",
       "typical_iv": 0.1202,
       "iv_rank": 0.1799,
       "iv_coverage_n": 252,
@@ -5649,6 +5757,7 @@
     },
     {
       "ticker": "TQQQ",
+      "name": "Nasdaq-100 (3x)",
       "typical_iv": 0.5675,
       "iv_rank": 1.0,
       "iv_coverage_n": 252,
@@ -5696,12 +5805,13 @@
       "option_volume_days": 10,
       "market_cap": {
         "usd": null,
-        "band": null,
-        "source": "finnhub-none"
+        "band": "ETF",
+        "source": "etf"
       }
     },
     {
       "ticker": "TSLA",
+      "name": "Tesla Inc",
       "typical_iv": 0.4492,
       "iv_rank": 0.1764,
       "iv_coverage_n": 252,
@@ -5755,6 +5865,7 @@
     },
     {
       "ticker": "TSLL",
+      "name": "Tesla (2x)",
       "typical_iv": 0.9121,
       "iv_rank": 0.2572,
       "iv_coverage_n": 252,
@@ -5802,12 +5913,13 @@
       "option_volume_days": 5,
       "market_cap": {
         "usd": null,
-        "band": null,
-        "source": "finnhub-none"
+        "band": "ETF",
+        "source": "etf"
       }
     },
     {
       "ticker": "UAL",
+      "name": "United Airlines Holdings Inc",
       "typical_iv": 0.4854,
       "iv_rank": 0.5055,
       "iv_coverage_n": 252,
@@ -5861,6 +5973,7 @@
     },
     {
       "ticker": "UBER",
+      "name": "Uber Technologies Inc",
       "typical_iv": 0.3564,
       "iv_rank": 0.2763,
       "iv_coverage_n": 252,
@@ -5914,6 +6027,7 @@
     },
     {
       "ticker": "USB",
+      "name": "US Bancorp",
       "typical_iv": 0.2548,
       "iv_rank": 0.5424,
       "iv_coverage_n": 252,
@@ -5967,6 +6081,7 @@
     },
     {
       "ticker": "USO",
+      "name": "US Oil Fund",
       "typical_iv": 0.3201,
       "iv_rank": 0.1972,
       "iv_coverage_n": 252,
@@ -6020,6 +6135,7 @@
     },
     {
       "ticker": "UVXY",
+      "name": "VIX Short-Term Futures (1.5x)",
       "typical_iv": 1.0084,
       "iv_rank": 0.1527,
       "iv_coverage_n": 252,
@@ -6067,12 +6183,13 @@
       "option_volume_days": 10,
       "market_cap": {
         "usd": null,
-        "band": null,
-        "source": "finnhub-none"
+        "band": "ETF",
+        "source": "etf"
       }
     },
     {
       "ticker": "V",
+      "name": "Visa Inc",
       "typical_iv": 0.2159,
       "iv_rank": 0.3065,
       "iv_coverage_n": 252,
@@ -6126,6 +6243,7 @@
     },
     {
       "ticker": "VALE",
+      "name": "Vale SA",
       "typical_iv": 0.3213,
       "iv_rank": 0.3763,
       "iv_coverage_n": 252,
@@ -6179,6 +6297,7 @@
     },
     {
       "ticker": "VZ",
+      "name": "Verizon Communications Inc",
       "typical_iv": 0.2195,
       "iv_rank": 0.7658,
       "iv_coverage_n": 252,
@@ -6232,6 +6351,7 @@
     },
     {
       "ticker": "WBD",
+      "name": "Warner Bros Discovery Inc",
       "typical_iv": 0.3564,
       "iv_rank": 0.4517,
       "iv_coverage_n": 252,
@@ -6285,6 +6405,7 @@
     },
     {
       "ticker": "WFC",
+      "name": "Wells Fargo & Co",
       "typical_iv": 0.2795,
       "iv_rank": 0.4701,
       "iv_coverage_n": 252,
@@ -6338,6 +6459,7 @@
     },
     {
       "ticker": "WMB",
+      "name": "Williams Companies Inc",
       "typical_iv": 0.2586,
       "iv_rank": 0.4531,
       "iv_coverage_n": 252,
@@ -6391,6 +6513,7 @@
     },
     {
       "ticker": "WMT",
+      "name": "Walmart Inc",
       "typical_iv": 0.2452,
       "iv_rank": 0.3003,
       "iv_coverage_n": 252,
@@ -6444,6 +6567,7 @@
     },
     {
       "ticker": "XLB",
+      "name": "Materials Sector",
       "typical_iv": 0.1792,
       "iv_rank": 0.2381,
       "iv_coverage_n": 252,
@@ -6497,6 +6621,7 @@
     },
     {
       "ticker": "XLC",
+      "name": "Communication Services Sector",
       "typical_iv": 0.1694,
       "iv_rank": 0.1771,
       "iv_coverage_n": 252,
@@ -6550,6 +6675,7 @@
     },
     {
       "ticker": "XLE",
+      "name": "Energy Sector",
       "typical_iv": 0.2154,
       "iv_rank": 0.3704,
       "iv_coverage_n": 252,
@@ -6603,6 +6729,7 @@
     },
     {
       "ticker": "XLF",
+      "name": "Financials Sector",
       "typical_iv": 0.1685,
       "iv_rank": 0.4465,
       "iv_coverage_n": 252,
@@ -6656,6 +6783,7 @@
     },
     {
       "ticker": "XLI",
+      "name": "Industrials Sector",
       "typical_iv": 0.1568,
       "iv_rank": 0.4824,
       "iv_coverage_n": 252,
@@ -6709,6 +6837,7 @@
     },
     {
       "ticker": "XLK",
+      "name": "Technology Sector",
       "typical_iv": 0.225,
       "iv_rank": 0.6702,
       "iv_coverage_n": 252,
@@ -6762,6 +6891,7 @@
     },
     {
       "ticker": "XLP",
+      "name": "Consumer Staples Sector",
       "typical_iv": 0.139,
       "iv_rank": 0.3423,
       "iv_coverage_n": 252,
@@ -6815,6 +6945,7 @@
     },
     {
       "ticker": "XLRE",
+      "name": "Real Estate Sector",
       "typical_iv": 0.1555,
       "iv_rank": 0.2176,
       "iv_coverage_n": 252,
@@ -6868,6 +6999,7 @@
     },
     {
       "ticker": "XLU",
+      "name": "Utilities Sector",
       "typical_iv": 0.1582,
       "iv_rank": 0.4413,
       "iv_coverage_n": 252,
@@ -6921,6 +7053,7 @@
     },
     {
       "ticker": "XLV",
+      "name": "Health Care Sector",
       "typical_iv": 0.1508,
       "iv_rank": 0.5206,
       "iv_coverage_n": 252,
@@ -6974,6 +7107,7 @@
     },
     {
       "ticker": "XLY",
+      "name": "Consumer Discretionary Sector",
       "typical_iv": 0.1987,
       "iv_rank": 0.0,
       "iv_coverage_n": 252,
@@ -7027,6 +7161,7 @@
     },
     {
       "ticker": "XOM",
+      "name": "Exxon Mobil Corp",
       "typical_iv": 0.2544,
       "iv_rank": 0.4974,
       "iv_coverage_n": 252,
