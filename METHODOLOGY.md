@@ -35,9 +35,25 @@ optionable names. **Two data sources** (stated honestly — the data is not sing
    with `option_volume`; a wide spread on a name with healthy volume is an indicative artifact.
 8. **market_cap** — Finnhub company market cap (USD) + **band** (Mega ≥ $200B / Large
    $10-200B / Mid $2-10B / Small $300M-$2B / Micro < $300M). ETFs: N/A.
-9. **option_volume** — trailing ~10-session **average daily volume** of the shared ~35-DTE
-   ATM-put contract (the **genuine** liquidity-depth signal). `option_volume_days` is how many
-   sessions the average covers; a low count (e.g. 1) is a single noisy day, not a stable read.
+9. **near_term_option_volume** — the **name's option liquidity at the wheel tenors**: trailing
+   ~10-session average of the **total** daily volume (calls + puts, **all strikes**) across **all
+   expiries within ~60 DTE** — weeklies + the front 1-2 monthlies. The wheel tenor is
+   **type-dependent**: calm/blue-chip names wheel the ~30-45-DTE monthly, while leveraged/volatile
+   names wheel **short-dated weeklies** (a multi-week hold fights their daily-reset decay) — so a
+   single fixed expiry understated the short-dated names ~9× (e.g. SOXL 5,555 → ~51,000). The ~60-DTE
+   near-term window captures both, **robustly across the expiry calendar** (the front monthly can sit
+   at ~20 or ~55 DTE depending on the date). It is **not** the single ATM strike (which understates
+   liquid names) and **not** the whole chain (excludes far-dated LEAPs/quarterlies no wheeler uses),
+   so it reads **below** the whole-chain figures some sites quote — by design. This is the
+   **single liquidity fact shown on the card** and drives the "most active" sort.
+   `near_term_volume_days` = sessions averaged.
+10. **atm_contract_volume** / **spread_pct** — trailing ~10-session average daily volume, and the
+   indicative bid/ask spread, of the **single** ~35-DTE ATM-put contract that IV is measured on.
+   These are the *contract-selection basis* (they pin the unified ~35-DTE contract the IV facts come
+   from), but a single strike's volume and an indicative-feed spread are not a reliable read of the
+   name's option liquidity — so they are **computed and published but not displayed on the card**;
+   liquidity is shown volume-led via `near_term_option_volume`. `atm_contract_volume_days` = sessions
+   averaged.
 
 **Other honest caveats.** Open interest is **not available** from the data source (not
 published — never estimated). A few names are **spin-off-adjusted** (total-return basis, so a
